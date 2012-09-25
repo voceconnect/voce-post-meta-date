@@ -14,7 +14,6 @@ class Voce_Post_Meta_Date {
 	public static function initialize() {
 		add_filter( 'meta_type_mapping', array( __CLASS__, 'meta_type_mapping' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'action_admin_enqueue_scripts' ) );
-		add_filter( 'attachment_fields_to_edit', array( __CLASS__, 'add_attachment_field' ), 20, 2 );
 	}
 
 	/** Enqueue admin JavaScripts
