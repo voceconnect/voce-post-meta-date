@@ -14,6 +14,7 @@ class Voce_Post_Meta_Date {
 	public static function initialize() {
 		add_filter( 'meta_type_mapping', array( __CLASS__, 'meta_type_mapping' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'action_admin_enqueue_scripts' ) );
+		add_action( 'admin_print_footer_scripts', array( __CLASS__, 'print_timezone' ) );
 	}
 
 	/** Enqueue admin JavaScripts
@@ -22,11 +23,17 @@ class Voce_Post_Meta_Date {
 	 */
 	public static function action_admin_enqueue_scripts( $hook ) {
 		// only load on select pages
-		if ( !in_array( $hook, array( 'post-new.php', 'post.php', 'media-upload-popup' ) ) ) {
+		if ( !in_array( $hook, array( 'post-new.php', 'post.php', ) ) ) {
 			return;
 		}
 		wp_enqueue_style( 'jquery-datepicker-style', self::plugins_url( 'jquery-ui.css', __FILE__ ) );
-		wp_enqueue_script( "voce-post-meta-date", self::plugins_url( 'voce-post-meta-date.js', __FILE__ ), array( 'jquery', 'jquery-ui-datepicker' ) );
+		wp_enqueue_script( "jquery-timepicker", self::plugins_url( 'timepicker.js', __FILE__ ), array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'jquery-ui-slider' ) );
+		wp_enqueue_script( "voce-post-meta-date", self::plugins_url( 'voce-post-meta-date.js', __FILE__ ), array( 'jquery', 'jquery-ui-core' ) );
+	}
+
+	public static function print_timezone() {
+		$timezone = get_option( 'gmt_offset' );
+		echo "<script>window.VocePostMetaDatePicker.timezone = $timezone;</script>";
 	}
 
 	/**

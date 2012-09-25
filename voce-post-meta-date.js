@@ -30,7 +30,12 @@ window.VocePostMetaDatePicker = {
 	 * @param object inst Instance from DatePicker plugin
 	 */
 	unixDate: function(inst){
-		var date = new Date( inst.selectedYear, inst.selectedMonth, inst.selectedDay );
+		var date = new Date();
+		if(typeof inst.hour != undefined){
+			date = new Date(inst.formattedDateTime);
+		} else {
+			date = new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay);
+		}
 		return Math.round( date.getTime()/1000 );
 	},
         
@@ -40,7 +45,8 @@ window.VocePostMetaDatePicker = {
 	 * @param object el HTML element to trigger popup
 	 */
 	bind: function(el){
-		jQuery(el).datepicker({
+		jQuery(el).datetimepicker({
+			defaultTimezone : VocePostMetaDatePicker.timezone,
 			dateFormat: 'yy/mm/dd',
 			changeMonth: true,
 			changeYear: true,
@@ -75,7 +81,13 @@ window.VocePostMetaDatePicker = {
 		if(jQuery('#'+inputID).val().length > 0){
 			var timestamp = parseInt(jQuery('#'+inputID).val());
 			var dateObject = new Date(timestamp * 1000)
-			var formatted = dateObject.getFullYear() + "/" + (this.padDate(dateObject.getMonth() + 1)) + "/" + (this.padDate(dateObject.getDate()));
+			console.log(dateObject);
+			var formatted = dateObject.getFullYear() + "/" + 
+				(this.padDate(dateObject.getMonth() + 1)) + "/" + 
+				(this.padDate(dateObject.getDate()) + " " +
+				this.padDate(dateObject.getHours()) + ":" +
+				this.padDate(dateObject.getMinutes())
+			);
 			jQuery(el).val(formatted);
 		}
 	},
