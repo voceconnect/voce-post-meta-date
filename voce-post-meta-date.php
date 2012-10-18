@@ -33,7 +33,10 @@ class Voce_Post_Meta_Date {
 
 	public static function print_timezone() {
 		$timezone = get_option( 'gmt_offset' );
-		echo "<script>window.VocePostMetaDatePicker.timezone = $timezone;</script>";
+		echo "
+		<script>
+			if(window.VocePostMetaDatePicker){window.VocePostMetaDatePicker.timezone = $timezone;}
+		</script>";
 	}
 
 	/**
