@@ -5,7 +5,7 @@ window.VocePostMetaDatePicker = {
 			$('.datepicker').each(function(){
 				VocePostMetaDatePicker.init(this);
 			});
-			$('.voce-date-clear').live('click', function(e){
+			$('.voce-date-clear').click( function(e){
 				e.preventDefault();
 				VocePostMetaDatePicker.clear(this);
 			});
@@ -29,13 +29,8 @@ window.VocePostMetaDatePicker = {
 	 * @method unixDate
 	 * @param object inst Instance from DatePicker plugin
 	 */
-	unixDate: function(inst){
-		var date = new Date();
-		if(typeof inst.hour != undefined){
-			date = new Date(inst.formattedDateTime);
-		} else {
-			date = new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay);
-		}
+	unixDate: function(dateText){
+		var date = new Date(dateText);
 		return Math.round( date.getTime()/1000 );
 	},
         
@@ -52,7 +47,7 @@ window.VocePostMetaDatePicker = {
 			changeYear: true,
 			onSelect: function(dateText, inst) {
 				var inputID = jQuery(this).attr('id').replace("-formatted", "");
-				var formatted = VocePostMetaDatePicker.unixDate(inst);
+				var formatted = VocePostMetaDatePicker.unixDate(dateText);
 				jQuery("#"+inputID).val(formatted);
 			}
 		});
@@ -79,7 +74,7 @@ window.VocePostMetaDatePicker = {
 	populateDisplayDate: function(el){
 		var inputID = jQuery(el).attr('id').replace("-formatted", "");
 		if(jQuery('#'+inputID).val().length > 0){
-			var timestamp = parseInt(jQuery('#'+inputID).val());
+			var timestamp = parseInt(jQuery('#'+inputID).val(), 10);
 			var dateObject = new Date(timestamp * 1000)
 			console.log(dateObject);
 			var formatted = dateObject.getFullYear() + "/" + 
