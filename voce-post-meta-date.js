@@ -5,7 +5,7 @@ window.VocePostMetaDatePicker = {
 			$('.datepicker').each(function(){
 				VocePostMetaDatePicker.init(this);
 			});
-			$('.voce-date-clear').click( function(e){
+			$(this).on('click', '.voce-date-clear', function(e){
 				e.preventDefault();
 				VocePostMetaDatePicker.clear(this);
 			});
