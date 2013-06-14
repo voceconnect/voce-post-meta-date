@@ -36,11 +36,14 @@ class Voce_Post_Meta_Date {
 		$timezone = get_option( 'gmt_offset' );
 		echo "
 		<script>
-			if(window.VocePostMetaDatePicker){window.VocePostMetaDatePicker.timezone = $timezone;}
+			if(window.VocePostMetaDatePicker){window.VocePostMetaDatePicker.timezone = " . esc_js( $timezone ) . ";}
 		</script>";
 	}
 
 	/**
+	 * Allow this plugin to live either in the plugins directory or inside
+	 * the themes directory.
+	 *
 	 * @method plugins_url
 	 * @param type $relative_path
 	 * @param type $plugin_path
