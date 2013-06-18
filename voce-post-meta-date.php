@@ -88,18 +88,16 @@ class Voce_Post_Meta_Date {
 
 }
 
-if ( class_exists( 'Voce_Meta_API' ) ) {
-	Voce_Post_Meta_Date::initialize();
 
-	function voce_date_field_display( $field, $value, $post_id ) {
-		?>
-		<p>
-			<?php voce_field_label_display( $field ); ?>
-			<input type="text" class="datepicker" id="<?php echo $field->id; ?>-formatted" value="Select Date" readonly />
-			<input class="hidden" type="hidden" id="<?php echo $field->id; ?>" name="<?php echo $field->id; ?>" value="<?php echo esc_attr( $value ); ?>"  />
-			<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
-		</p>
-		<?php
-	}
+Voce_Post_Meta_Date::initialize();
 
+function voce_date_field_display( $field, $value, $post_id ) {
+	?>
+	<p>
+		<?php voce_field_label_display( $field ); ?>
+		<input type="text" class="datepicker" id="<?php echo $field->id; ?>-formatted" value="Select Date" readonly />
+		<input class="hidden" type="hidden" id="<?php echo $field->id; ?>" name="<?php echo $field->id; ?>" value="<?php echo esc_attr( $value ); ?>"  />
+		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
+	</p>
+	<?php
 }
