@@ -49,7 +49,7 @@ class Voce_Post_Meta_Date {
 	 * @method plugins_url
 	 * @param type $relative_path
 	 * @param type $plugin_path
-	 * @return string 
+	 * @return string
 	 */
 	public static function plugins_url( $relative_path, $plugin_path ) {
 		$template_dir = get_template_directory();
@@ -76,7 +76,7 @@ class Voce_Post_Meta_Date {
 	/**
 	 * @method meta_type_mapping
 	 * @param type $mapping
-	 * @return array 
+	 * @return array
 	 */
 	public static function meta_type_mapping( $mapping ) {
 		$mapping['date'] = array(
@@ -102,8 +102,8 @@ function voce_date_field_display( $field, $value, $post_id ) {
 	?>
 	<p>
 		<?php voce_field_label_display( $field ); ?>
-		<input type="text" class="datepicker" id="<?php echo $field->id; ?>-formatted" value="Select Date" readonly />
-		<input class="hidden" type="hidden" id="<?php echo $field->id; ?>" name="<?php echo $field->id; ?>" value="<?php echo esc_attr( $value ); ?>"  />
+		<input type="text" class="datepicker" id="<?php echo $field->input_id; ?>-formatted" value="Select Date" readonly />
+		<input class="hidden" type="hidden" id="<?php echo $field->input_id; ?>" name="<?php echo $field->name; ?>" value="<?php echo esc_attr( $value ); ?>"  />
 		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
 	</p>
 	<?php
