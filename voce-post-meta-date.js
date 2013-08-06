@@ -109,7 +109,7 @@ window.VocePostMetaDatePicker = {
 					inputID = $el.attr('id').replace('-formatted', ''),
 					timepickerDate;
 
-				// Bug Fix: if closed with no date selected, dateText takes on $el.val() (the default text) and sets the date to today's date
+				// if closed with no date selected, dateText takes on $el.val() (the default text) and sets the date to today's date
 				// ------------------------------------------------------------
 				if ($el.val() === $el.data('default_text')) {
 					$el.datetimepicker('setDate', null).val($el.data('default_text'));
@@ -165,14 +165,13 @@ window.VocePostMetaDatePicker = {
 	 */
 	populateDate: function(el) {
 		var $el = jQuery(el),
-			defaultDate = $el.data('default_date'),
+			defaultDate = $el.data('default_date') ? this.timepickerToFormatted($el.data('default_date')) : null,
 			inputID = $el.attr('id').replace('-formatted', ''),
 			savedDate = parseInt(jQuery('#'+inputID).val(), 10),
 			formatted;
 
         if (savedDate) {
             formatted = this.unixToFormatted(savedDate);
-			console.log(formatted);
             $el.datetimepicker('setDate', formatted).val(formatted);
         }
 		else if (defaultDate) {
