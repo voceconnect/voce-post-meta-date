@@ -16,8 +16,18 @@ class Voce_Post_Meta_Date {
 	 */
 	public static function initialize() {
 		add_filter( 'meta_type_mapping', array(__CLASS__, 'meta_type_mapping') );
+		add_action( 'admin_head', array(__CLASS__, 'css_fix') );
 		add_action( 'admin_enqueue_scripts', array(__CLASS__, 'action_admin_enqueue_scripts') );
 		add_action( 'admin_print_footer_scripts', array(__CLASS__, 'print_timezone') );
+	}
+
+	public static function css_fix() {
+		echo "
+		<style>
+			#ui-datepicker-div{
+				display:none;
+			}
+		</style>";
 	}
 
 	/**
@@ -99,11 +109,22 @@ Voce_Post_Meta_Date::initialize();
  * @param int $post_id
  */
 function voce_date_field_display( $field, $value, $post_id ) {
+	$defaults = array(
+		'max_date'       => '',
+		'min_date'       => '',
+		'max_date_field' => '',
+		'min_date_field' => '',
+		'default_text'   => 'Select Date',
+		'default_date'   => '',
+	);
+	$args = wp_parse_args( $field->args, $defaults );
+
+	$input_pattern = '<input type="text" class="datepicker" id="%s-formatted" data-default_text="%s" data-default_date="%s" data-max_date="%s" data-min_date="%s" data-max_date_field="%s" data-min_date_field="%s" readonly />';
 	?>
 	<p>
 		<?php voce_field_label_display( $field ); ?>
-		<input type="text" class="datepicker" id="<?php echo $field->input_id; ?>-formatted" value="Select Date" readonly />
-		<input class="hidden" type="hidden" id="<?php echo $field->input_id; ?>" name="<?php echo $field->name; ?>" value="<?php echo esc_attr( $value ); ?>"  />
+		<?php printf( $input_pattern, $field->get_input_id(), esc_attr( $args['default_text'] ), esc_attr( $args['default_date'] ), esc_attr( $args['max_date'] ), esc_attr( $args['min_date'] ), esc_attr( $args['max_date_field'] ), esc_attr( $args['min_date_field'] ) ); ?>
+		<input class="hidden" type="hidden" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr( $value ); ?>"  />
 		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
 	</p>
 	<?php
