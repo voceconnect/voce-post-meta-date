@@ -99,19 +99,32 @@ window.VocePostMetaDatePicker = {
 			},
 			onClose: function(dateText, inst) {
 				var $el = jQuery(this),
+					timepickerToUnix = window.VocePostMetaDatePicker.timepickerToUnix,
+					elDateUnix = timepickerToUnix(dateText),
+					elDate = window.VocePostMetaDatePicker.unixToFormatted(elDateUnix),
+					minDate = $el.data('min_date'),
+					minDateUnix = timepickerToUnix(minDate) || 0,
+					maxDate = $el.data('max_date'),
+					maxDateUnix = timepickerToUnix(maxDate) || 9999999999,
 					inputID = $el.attr('id').replace('-formatted', ''),
-					timepickerDate,
-					timepickerToUnix = window.VocePostMetaDatePicker.timepickerToUnix;
+					timepickerDate;
 
-				// Bug Fix: dateText takes on $el.val() and sets the date to today's date
+				// Bug Fix: if closed with no date selected, dateText takes on $el.val() (the default text) and sets the date to today's date
 				// ------------------------------------------------------------
 				if ($el.val() === $el.data('default_text')) {
 					$el.datetimepicker('setDate', null).val($el.data('default_text'));
 				}
+				else
 				// ------------------------------------------------------------
+				if (elDateUnix < minDateUnix) {
+					$el.datetimepicker('setDate', minDate).val(minDate);
+				}
+				else if (elDateUnix > maxDateUnix) {
+					$el.datetimepicker('setDate', maxDate).val(maxDate);
+				}
 
 				window.VocePostMetaDatePicker.updateLimits(this);
-				
+
 				timepickerDate = $el.datetimepicker('getDate');
 
 				jQuery('input[data-min_date_field='+inputID+']').each(function(){
@@ -195,7 +208,7 @@ window.VocePostMetaDatePicker = {
 		jQuery('input[data-min_date_field='+inputID+']').each(function(){
 			var $this = jQuery(this),
 				minDate = $this.data('min_date'),
-				minDateUnix = parseInt(window.VocePostMetaDatePicker.timepickerToUnix(minDate), 10) || 9999999999,
+				minDateUnix = window.VocePostMetaDatePicker.timepickerToUnix(minDate) || 9999999999,
 				newLimit = minDateUnix < elDateUnix ? elDate : minDate;
 			window.VocePostMetaDatePicker.setLimit(this, 'min', newLimit);
 		});
@@ -203,7 +216,7 @@ window.VocePostMetaDatePicker = {
 		jQuery('input[data-max_date_field='+inputID+']').each(function(){
 			var $this = jQuery(this),
 				maxDate = $this.data('max_date'),
-				maxDateUnix = parseInt(window.VocePostMetaDatePicker.timepickerToUnix(maxDate), 10) || 0,
+				maxDateUnix = window.VocePostMetaDatePicker.timepickerToUnix(maxDate) || 0,
 				newLimit = maxDateUnix > elDateUnix ? elDate : maxDate;
 			window.VocePostMetaDatePicker.setLimit(this, 'max', newLimit);
 		});
