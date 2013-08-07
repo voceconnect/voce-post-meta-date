@@ -102,8 +102,8 @@ function voce_date_field_display( $field, $value, $post_id ) {
 	?>
 	<p>
 		<?php voce_field_label_display( $field ); ?>
-		<input type="text" class="datepicker" id="<?php echo $field->input_id; ?>-formatted" value="Select Date" readonly />
-		<input class="hidden" type="hidden" id="<?php echo $field->input_id; ?>" name="<?php echo $field->name; ?>" value="<?php echo esc_attr( $value ); ?>"  />
+		<input type="text" class="datepicker" id="<?php echo $field->get_input_id( ); ?>-formatted" value="Select Date" readonly />
+		<input class="hidden" type="hidden" id="<?php echo $field->get_input_id( ); ?>" name="<?php echo $field->get_name( ); ?>" value="<?php echo esc_attr( $value ); ?>"  />
 		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
 	</p>
 	<?php
