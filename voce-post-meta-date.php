@@ -105,6 +105,7 @@ function voce_date_field_display( $field, $value, $post_id ) {
 		<input type="text" class="datepicker" id="<?php echo $field->get_input_id( ); ?>-formatted" value="Select Date" readonly />
 		<input class="hidden" type="hidden" id="<?php echo $field->get_input_id( ); ?>" name="<?php echo $field->get_name( ); ?>" value="<?php echo esc_attr( $value ); ?>"  />
 		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
+		<?php echo !empty( $field->description ) ? ('<br><span class="description">' . wp_kses( $field->description, Voce_Meta_API::GetInstance()->description_allowed_html ) . '</span>') : ''; ?>
 	</p>
 	<?php
 }
