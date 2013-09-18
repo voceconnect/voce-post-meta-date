@@ -1,5 +1,3 @@
-// @TODO: time max/min isn't being enforced
-
 /*global window,document,jQuery */
 window.VocePostMetaDatePicker = {
 
