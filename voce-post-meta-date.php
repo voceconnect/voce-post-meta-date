@@ -126,6 +126,7 @@ function voce_date_field_display( $field, $value, $post_id ) {
 		<?php printf( $input_pattern, $field->get_input_id(), esc_attr( $args['default_text'] ), esc_attr( $args['default_date'] ), esc_attr( $args['max_date'] ), esc_attr( $args['min_date'] ), esc_attr( $args['max_date_field'] ), esc_attr( $args['min_date_field'] ) ); ?>
 		<input class="hidden" type="hidden" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr( $value ); ?>"  />
 		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
+		<?php echo !empty( $field->description ) ? ('<br><span class="description">' . wp_kses( $field->description, Voce_Meta_API::GetInstance()->description_allowed_html ) . '</span>') : ''; ?>
 	</p>
 	<?php
 }

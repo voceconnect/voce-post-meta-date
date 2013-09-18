@@ -49,11 +49,12 @@ window.VocePostMetaDatePicker = {
     unixToFormatted: function(unixDate) {
 		var timestamp = parseInt(unixDate, 10),
 			dateObject = new Date(timestamp * 1000),
+			padDate = window.VocePostMetaDatePicker.padDate,
 			formatted = dateObject.getFullYear()+"/"+
-				(this.padDate(dateObject.getMonth()+1))+"/"+
-				(this.padDate(dateObject.getDate())+" "+
-					this.padDate(dateObject.getHours())+":"+
-					this.padDate(dateObject.getMinutes())
+				(padDate(dateObject.getMonth()+1))+"/"+
+				(padDate(dateObject.getDate())+" "+
+					padDate(dateObject.getHours())+":"+
+					padDate(dateObject.getMinutes())
 				);
 		return formatted;
 	},
@@ -87,73 +88,47 @@ window.VocePostMetaDatePicker = {
 	 * @param object el HTML element to trigger popup
 	 */
 	bind: function(el) {
+		var $this = this;
 		jQuery(el).datetimepicker({
-			defaultTimezone: window.VocePostMetaDatePicker.timezone,
+			defaultTimezone: $this.timezone,
 			dateFormat: 'yy/mm/dd',
 			changeMonth: true,
 			changeYear: true,
 			onSelect: function(dateText, inst) {
 				var inputID = jQuery(this).attr('id').replace('-formatted', ''),
-					unixDate = window.VocePostMetaDatePicker.timepickerToUnix(dateText);
-				jQuery("#"+inputID).val(unixDate);
+					unixDate = $this.timepickerToUnix(dateText);
+				jQuery('#'+inputID).val(unixDate);
 			},
 			onClose: function(dateText, inst) {
 				var $el = jQuery(this),
-					timepickerToUnix = window.VocePostMetaDatePicker.timepickerToUnix,
+					timepickerToUnix = $this.timepickerToUnix,
+					elLimits = $this.getMinMax($el),
+					newMin = elLimits.elMin,
+					newMinUnix = timepickerToUnix(newMin),
+					newMax = elLimits.elMax,
+					newMaxUnix = timepickerToUnix(newMax),
 					elDateUnix = timepickerToUnix(dateText),
-					elDate = window.VocePostMetaDatePicker.unixToFormatted(elDateUnix),
-					minDate = $el.data('min_date'),
-					minDateUnix = timepickerToUnix(minDate) || 0,
-					maxDate = $el.data('max_date'),
-					maxDateUnix = timepickerToUnix(maxDate) || 9999999999,
-					inputID = $el.attr('id').replace('-formatted', ''),
-					timepickerDate;
+					elDate = $this.unixToFormatted(elDateUnix),
+					inputID = $el.attr('id').replace('-formatted', '');
 
 				// if closed with no date selected, dateText takes on $el.val() (the default text) and sets the date to today's date
 				// ------------------------------------------------------------
 				if ($el.val() === $el.data('default_text')) {
 					$el.datetimepicker('setDate', null).val($el.data('default_text'));
+					jQuery('#'+inputID).val('');
 				}
 				else
 				// ------------------------------------------------------------
-				if (elDateUnix < minDateUnix) {
-					$el.datetimepicker('setDate', minDate).val(minDate);
+				if (elDateUnix < newMinUnix) {
+					$el.datetimepicker('setDate', newMin).val(newMin);
+					jQuery('#'+inputID).val(newMinUnix);
 				}
-				else if (elDateUnix > maxDateUnix) {
-					$el.datetimepicker('setDate', maxDate).val(maxDate);
+				else if (elDateUnix > newMaxUnix) {
+					$el.datetimepicker('setDate', newMax).val(newMax);
+					jQuery('#'+inputID).val(newMaxUnix);
 				}
 
-				window.VocePostMetaDatePicker.updateLimits(this);
-
-				timepickerDate = $el.datetimepicker('getDate');
-
-				jQuery('input[data-min_date_field='+inputID+']').each(function(){
-					var $dependent = jQuery(this),
-						testStartDate,
-						testEndDate;
-
-					if ($dependent.data('default_text') !== $dependent.val()) {
-						testStartDate = timepickerToUnix(timepickerDate);
-						testEndDate = timepickerToUnix($dependent.datetimepicker('getDate'));
-						if (testStartDate > testEndDate) {
-							$dependent.datetimepicker('setDate', timepickerDate);
-						}
-					}
-				});
-
-				jQuery('input[data-max_date_field='+inputID+']').each(function(){
-					var $dependent = jQuery(this),
-						testStartDate,
-						testEndDate;
-
-					if ($dependent.data('default_text') !== $dependent.val()) {
-						testStartDate = timepickerToUnix($dependent.datetimepicker('getDate'));
-						testEndDate = timepickerToUnix(timepickerDate);
-						if (testStartDate > testEndDate) {
-							$dependent.datetimepicker('setDate', timepickerDate);
-						}
-					}
-				});
+				$this.updateLimits(this);
 			}
 		});
 	},
@@ -176,10 +151,33 @@ window.VocePostMetaDatePicker = {
         }
 		else if (defaultDate) {
             $el.datetimepicker('setDate', defaultDate).val(defaultDate);
+			jQuery("#"+inputID).val(this.timepickerToUnix(defaultDate));
 		}
 		else {
 			$el.datetimepicker('setDate', null).val($el.data('default_text'));
 		}
+	},
+	/**
+	 * Get min and max for an element
+	 *
+	 * @method getMinMax
+	 * @param object jQuery element for which to get min/max
+	 */
+	getMinMax: function($el) {
+		var minDate = $el.data('min_date'),
+			minDateUnix = this.timepickerToUnix(minDate) || -9999999999,
+			minDateField = $el.data('min_date_field'),
+			minDateFieldVal = minDateField ? jQuery('#'+minDateField+'-formatted').datetimepicker('getDate') : null,
+			minDateFieldUnix = this.timepickerToUnix(minDateFieldVal) || -9999999999,
+			elMin = minDateUnix > minDateFieldUnix ? this.unixToFormatted(minDateUnix) : this.unixToFormatted(minDateFieldUnix),
+			maxDate = $el.data('max_date'),
+			maxDateUnix = this.timepickerToUnix(maxDate) || 9999999999,
+			maxDateField = $el.data('max_date_field'),
+			maxDateFieldVal = maxDateField ? jQuery('#'+maxDateField+'-formatted').datetimepicker('getDate') : null,
+			maxDateFieldUnix = this.timepickerToUnix(maxDateFieldVal) || 9999999999;
+			elMax = maxDateUnix < maxDateFieldUnix ? this.unixToFormatted(maxDateUnix) : this.unixToFormatted(maxDateFieldUnix);
+
+		return {'elMin': elMin, 'elMax': elMax};
 	},
     /**
      * Update any dependent limits
@@ -189,35 +187,54 @@ window.VocePostMetaDatePicker = {
      */
     updateLimits: function(el) {
 		var $el = jQuery(el),
+			elLimits = this.getMinMax($el),
+			timepickerToUnix = this.timepickerToUnix,
+			unixToFormatted = this.unixToFormatted,
 			elDate = $el.datetimepicker('getDate'),
-			elDateUnix = this.timepickerToUnix(elDate),
-			minDate = $el.data('min_date'),
-			minDateUnix = this.timepickerToUnix(minDate),
-			maxDate = $el.data('max_date'),
-			maxDateUnix = this.timepickerToUnix(maxDate),
-			inputID = $el.attr('id').replace('-formatted', '');
+			elDateUnix = timepickerToUnix(elDate),
+			inputID = $el.attr('id').replace('-formatted', ''),
+			value = jQuery('#'+inputID).val();
 
-		if (minDateUnix) {
-			this.setLimit(el, 'min', minDate);
-		}
-		if (maxDateUnix) {
-			this.setLimit(el, 'max', maxDate);
-		}
+		this.setLimit(el, 'min', elLimits.elMin);
+		this.setLimit(el, 'max', elLimits.elMax);
 
+		// update fields that use this field as a limiter
 		jQuery('input[data-min_date_field='+inputID+']').each(function(){
-			var $this = jQuery(this),
-				minDate = $this.data('min_date'),
-				minDateUnix = window.VocePostMetaDatePicker.timepickerToUnix(minDate) || 9999999999,
-				newLimit = minDateUnix < elDateUnix ? elDate : minDate;
+			var $dependent = jQuery(this),
+				minDate = $dependent.data('min_date'),
+				minDateUnix = timepickerToUnix(minDate) || -9999999999,
+				newLimit = ('' === value || minDateUnix > elDateUnix) ? unixToFormatted(minDateUnix) : elDate,
+				depInputID = $dependent.attr('id').replace('-formatted', ''),
+				depStartDateUnix;
+
 			window.VocePostMetaDatePicker.setLimit(this, 'min', newLimit);
+
+			if ($dependent.data('default_text') !== $dependent.val()) {
+				depStartDateUnix = timepickerToUnix($dependent.datetimepicker('getDate'));
+				if ('' !== value && elDateUnix > depStartDateUnix) {
+					$dependent.datetimepicker('setDate', elDate);
+					jQuery('#'+depInputID).val(elDateUnix);
+				}
+			}
 		});
 
 		jQuery('input[data-max_date_field='+inputID+']').each(function(){
-			var $this = jQuery(this),
-				maxDate = $this.data('max_date'),
-				maxDateUnix = window.VocePostMetaDatePicker.timepickerToUnix(maxDate) || 0,
-				newLimit = maxDateUnix > elDateUnix ? elDate : maxDate;
+			var $dependent = jQuery(this),
+				maxDate = $dependent.data('max_date'),
+				maxDateUnix = timepickerToUnix(maxDate) || 9999999999,
+				newLimit = ('' === value || maxDateUnix < elDateUnix) ? unixToFormatted(maxDateUnix) : elDate,
+				depInputID = $dependent.attr('id').replace('-formatted', ''),
+				depEndDateUnix;
+
 			window.VocePostMetaDatePicker.setLimit(this, 'max', newLimit);
+
+			if ($dependent.data('default_text') !== $dependent.val()) {
+				depEndDateUnix = timepickerToUnix($dependent.datetimepicker('getDate'));
+				if ('' !== value && elDateUnix < depEndDateUnix) {
+					$dependent.datetimepicker('setDate', elDate);
+					jQuery('#'+depInputID).val(elDateUnix);
+				}
+			}
 		});
     },
     /**
@@ -231,16 +248,19 @@ window.VocePostMetaDatePicker = {
     setLimit: function(el, type, limit) {
 		var $el = jQuery(el);
 			current = $el.datetimepicker('getDate'),
-			newValue = current ? this.timepickerToFormatted(current) : $el.data('default_text');
+			newValue = current ? this.timepickerToFormatted(current) : $el.data('default_text'),
+			inputID = $el.attr('id').replace('-formatted', '');
 
-		jQuery(el).datetimepicker('option', type+'Date', limit);
+		$el.datetimepicker('option', type+'Date', limit);
 		$el.datetimepicker('setDate', current).val(newValue);
+		jQuery('#'+inputID).val(this.timepickerToUnix(current));
 
 		// Bug Fix: if a timepicker with a null value is set to null, the timepicker resets itself to today's date
 		// ------------------------------------------------------------
 			if (!current) {
 				$el.datetimepicker('setDate', this.unixToFormatted(0));
 				$el.datetimepicker('setDate', null).val($el.data('default_text'));
+				jQuery('#'+inputID).val('');
 			}
 		// ------------------------------------------------------------
 	},
