@@ -46,7 +46,7 @@ add_action('init', function(){
 ```max_date_field``` - ID of another 'date' field to use as a maximum for this field  
 ```min_date_field``` - ID of another 'date' field to use as a minimum for this field  
 ```max_date``` - Maximum date/time allowed for field (works in conjunction with ```max_date_field```)  
-```max_date``` - Minimum date/time allowed for field (works in conjunction with ```min_date_field```)  
+```min_date``` - Minimum date/time allowed for field (works in conjunction with ```min_date_field```)  
 ```default_text``` - Text to display if no date is set  
 ```default_date``` - Initial default date to set  
 
