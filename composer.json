@@ -1,7 +1,7 @@
 {
     "name": "voceconnect/voce-post-meta-date",
     "description": "Extension of Voce Post Meta Plugin to create date meta fields",
-    "type": "wordpress-plugin",
+    "keywords": ["wordpress", "post meta"],
     "license": "GPLv2+",
     "authors": [
         {
@@ -21,9 +21,7 @@
             "email": "klangley@voceconnect.com"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {
-    },
+    "type": "library",
     "autoload": {
         "files": ["voce-post-meta-date.php"]
     }
