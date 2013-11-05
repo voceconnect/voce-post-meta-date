@@ -1,0 +1,30 @@
+{
+    "name": "voceconnect/voce-post-meta-date",
+    "description": "Extension of Voce Post Meta Plugin to create date meta fields",
+    "type": "wordpress-plugin",
+    "license": "GPLv2+",
+    "authors": [
+        {
+            "name": "Mark Parolisi",
+            "email": "mark@voceconnect.com"
+        },
+        {
+            "name": "Gary Smirny",
+            "email": "gary@voceconnect.com"
+        },
+        {
+            "name": "John Ciacia",
+            "email": "john@voceconnectcom"
+        },
+        {
+            "name": "Kevin Langley Jr",
+            "email": "klangley@voceconnect.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+    },
+    "autoload": {
+        "files": ["voce-post-meta-date.php"]
+    }
+}
