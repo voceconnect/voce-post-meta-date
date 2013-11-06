@@ -1,5 +1,4 @@
 /*global window,document,jQuery */
-"use strict";
 window.VocePostMetaDatePicker = {
 
     /**
