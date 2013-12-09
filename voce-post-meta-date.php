@@ -81,7 +81,7 @@ class Voce_Post_Meta_Date {
 			$url = plugins_url( $relative_path, $plugin_path );
 		}
 
-		$url = apply_filters( 'voce-post-meta-date_plugins_url', $url, $relative_path, $plugin_path );
+		return apply_filters( 'voce-post-meta-date_plugins_url', $url, $relative_path, $plugin_path );
 	}
 
 	/**
