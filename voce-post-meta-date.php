@@ -77,10 +77,11 @@ class Voce_Post_Meta_Date {
 			if( !empty( $relative_path ) && is_string( $relative_path ) && strpos( $relative_path, '..' ) === false ) {
 				$url .= '/' . ltrim( $relative_path, '/' );
 			}
-			return $url;
 		} else {
-			return plugins_url( $relative_path, $plugin_path );
+			$url = plugins_url( $relative_path, $plugin_path );
 		}
+
+		$url = apply_filters( 'voce-post-meta-date_plugins_url', $url, $relative_path, $plugin_path );
 	}
 
 	/**
