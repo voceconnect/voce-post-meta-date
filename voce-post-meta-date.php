@@ -9,6 +9,8 @@
   License: GPLv2
  */
 
+if ( ! class_exists( 'Voce_Post_Meta_Date' ) ) :
+
 class Voce_Post_Meta_Date {
 
 	/**
@@ -131,3 +133,5 @@ function voce_date_field_display( $field, $value, $post_id ) {
 	</p>
 	<?php
 }
+
+endif;
