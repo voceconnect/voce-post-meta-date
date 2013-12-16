@@ -3,7 +3,7 @@
   Plugin Name: Voce Meta Date
   Plugin URI: http://vocecommunications.com
   Description: Extends Voce Post Meta with a date picker field
-  Version: 1.1.0
+  Version: 1.2.0
   Author: markparolisi, banderon, voceplatforms
   Author URI: http://vocecommunications.com
   License: GPLv2
@@ -95,7 +95,8 @@ class Voce_Post_Meta_Date {
 		$mapping['date'] = array(
 			'class' => 'Voce_Meta_Field',
 			'args' => array(
-				'display_callbacks' => array('voce_date_field_display')
+				'display_callbacks' => array('voce_date_field_display'),
+				'sanitize_callbacks' => array('voce_date_field_sanitize')
 			)
 		);
 		return $mapping;
@@ -132,6 +133,10 @@ function voce_date_field_display( $field, $value, $post_id ) {
 		<?php echo !empty( $field->description ) ? ('<br><span class="description">' . wp_kses( $field->description, Voce_Meta_API::GetInstance()->description_allowed_html ) . '</span>') : ''; ?>
 	</p>
 	<?php
+}
+
+function voce_date_field_sanitize( $field, $old, $new, $post_id ) {
+	return intval($new_value);
 }
 
 endif;
