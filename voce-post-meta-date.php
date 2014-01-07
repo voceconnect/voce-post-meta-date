@@ -3,7 +3,7 @@
   Plugin Name: Voce Meta Date
   Plugin URI: http://vocecommunications.com
   Description: Extends Voce Post Meta with a date picker field
-  Version: 1.2.0
+  Version: 1.2.1
   Author: markparolisi, banderon, voceplatforms
   Author URI: http://vocecommunications.com
   License: GPLv2
@@ -136,7 +136,7 @@ function voce_date_field_display( $field, $value, $post_id ) {
 }
 
 function voce_date_field_sanitize( $field, $old, $new, $post_id ) {
-	return intval($new_value);
+	return intval($new);
 }
 
 endif;
