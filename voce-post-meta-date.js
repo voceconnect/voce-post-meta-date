@@ -51,6 +51,7 @@ window.VocePostMetaDatePicker = {
 			hours = dateObject.getHours(),
 			ampm = ( hours > 11 ) ? 'PM' : 'AM',
 			hours = ( hours > 12 ) ? hours - 12 : hours,
+            hours = ( 0 === hours ) ? 12 : hours,
             formatted = dateObject.getFullYear()+"/"+
                 (padDate(dateObject.getMonth()+1))+"/"+
                 (padDate(dateObject.getDate())+" "+
