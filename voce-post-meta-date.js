@@ -48,16 +48,16 @@ window.VocePostMetaDatePicker = {
         var timestamp = parseInt(unixDate, 10),
             dateObject = new Date(timestamp * 1000),
             padDate = window.VocePostMetaDatePicker.padDate,
-			hours = dateObject.getHours(),
-			ampm = ( hours > 11 ) ? 'PM' : 'AM',
-			hours = ( hours > 12 ) ? hours - 12 : hours,
+            hours = dateObject.getHours(),
+            ampm = ( hours > 11 ) ? 'PM' : 'AM',
+            hours = ( hours > 12 ) ? hours - 12 : hours,
             hours = ( 0 === hours ) ? 12 : hours,
             formatted = dateObject.getFullYear()+"/"+
                 (padDate(dateObject.getMonth()+1))+"/"+
                 (padDate(dateObject.getDate())+" "+
                     padDate(hours)+":"+
                     padDate(dateObject.getMinutes())+" "+
-					ampm
+                    ampm
                 );
         return formatted;
     },
@@ -95,7 +95,7 @@ window.VocePostMetaDatePicker = {
         jQuery(el).datetimepicker({
             defaultTimezone: $this.timezone,
             dateFormat: 'yy/mm/dd',
-			timeFormat: 'hh:mm TT',
+            timeFormat: 'hh:mm TT',
             changeMonth: true,
             changeYear: true,
             onSelect: function(dateText, inst) {
