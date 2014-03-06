@@ -3,7 +3,7 @@
   Plugin Name: Voce Meta Date
   Plugin URI: http://vocecommunications.com
   Description: Extends Voce Post Meta with a date picker field
-  Version: 1.2.2
+  Version: 1.2.3
   Author: markparolisi, banderon, voceplatforms
   Author URI: http://vocecommunications.com
   License: GPLv2
@@ -21,6 +21,7 @@ class Voce_Post_Meta_Date {
 		add_action( 'admin_head', array(__CLASS__, 'css_fix') );
 		add_action( 'admin_enqueue_scripts', array(__CLASS__, 'action_admin_enqueue_scripts') );
 		add_action( 'admin_print_footer_scripts', array(__CLASS__, 'print_timezone') );
+		add_action( 'admin_init', array( __CLASS__, 'check_voce_meta_api' ) );
 	}
 
 	public static function css_fix() {
@@ -101,6 +102,29 @@ class Voce_Post_Meta_Date {
 		);
 		return $mapping;
 	}
+
+	/**
+	 * Check if Voce Post Meta is loaded
+	 * @method check_voce_meta_api
+	 * @return void
+	 */
+	public static function check_voce_meta_api() {
+		if ( !class_exists('Voce_Meta_API')) {
+	  		add_action('admin_notices', array( __CLASS__, 'voce_meta_api_not_loaded' ) );
+	  	}
+	}
+	
+	/**
+	 * Display message if Voce_Meta_API class (or Voce Post Meta plugin, more likely) is not available
+	 * @method voce_meta_api_not_loaded
+	 * @return void
+	 */
+	public static function voce_meta_api_not_loaded() {
+	    printf(
+	      '<div class="error"><p>%s</p></div>',
+	      __('Voce Post Meta Date Plugin cannot be utilized without the <a href="https://github.com/voceconnect/voce-post-meta" target="_BLANK">Voce Post Meta</a> plugin.')
+	    );
+	}		
 
 }
 
