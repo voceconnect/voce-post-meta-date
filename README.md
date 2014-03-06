@@ -78,6 +78,10 @@ add_action('init', function(){
 });
 ?>
 ```
+**1.2.3**  
+*Added check for Voce_Meta_API.*
+
+
 **1.2.2**  
 *Fixing sanitization function.*
 
