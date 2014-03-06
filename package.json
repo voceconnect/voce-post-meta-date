@@ -1,7 +1,7 @@
 {
     "name": "voce-post-meta-date",
     "description": "Extend Voce Post Meta with date/time pickers",
-    "version": "1.2.3",
+    "version": "2.0.1",
     "projectType" : "wordpress-plugin",
     "keywords": [
         "wordpress",
