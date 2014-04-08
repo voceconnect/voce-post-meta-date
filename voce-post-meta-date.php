@@ -21,7 +21,47 @@ class Voce_Post_Meta_Date {
 		add_action( 'admin_head', array(__CLASS__, 'css_fix') );
 		add_action( 'admin_enqueue_scripts', array(__CLASS__, 'action_admin_enqueue_scripts') );
 		add_action( 'admin_print_footer_scripts', array(__CLASS__, 'print_timezone') );
-		add_action( 'admin_init', array( __CLASS__, 'check_voce_meta_api' ) );
+		add_action( 'admin_init', array( __CLASS__, 'admin_init' ) );
+	}
+
+	/**
+	 * Add action for admin_notices
+	 * @method admin_init
+	 * @return void
+	 */
+	static function admin_init(){
+		add_action( 'admin_notices', array( __CLASS__, 'check_dependencies' ) );
+	}
+
+	/**
+	 * Display admin notice message
+	 * @method add_admin_notice
+	 * @param string $notice
+	 * @return void
+	 */
+	static function add_admin_notice( $notice ){
+		echo '<div class="error"><p>' . $notice . '</p></div>';
+	}
+
+	/**
+	 * Checks plugin dependencies
+	 * @method check_dependencies
+	 * @return void
+	 */
+	static function check_dependencies(){
+		$dependencies = array(
+			'Voce Post Meta' => array(
+				'url' => 'https://github.com/voceconnect/voce-post-meta',
+				'class' => 'Voce_Meta_API'
+			)
+		);
+
+		foreach( $dependencies as $plugin => $plugin_data ){
+			if ( !class_exists( $plugin_data['class'] ) ){
+				$notice = sprintf( 'The Voce Post Meta Post Date Plugin cannot be utilized without the <a href="%s" target="_blank">%s</a> plugin.', esc_url( $plugin_data['url'] ), $plugin );
+				self::add_admin_notice( __( $notice, 'voce-post-meta-date' ) );
+			}
+		}
 	}
 
 	public static function css_fix() {
@@ -102,30 +142,6 @@ class Voce_Post_Meta_Date {
 		);
 		return $mapping;
 	}
-
-	/**
-	 * Check if Voce Post Meta is loaded
-	 * @method check_voce_meta_api
-	 * @return void
-	 */
-	public static function check_voce_meta_api() {
-		if ( !class_exists('Voce_Meta_API')) {
-	  		add_action('admin_notices', array( __CLASS__, 'voce_meta_api_not_loaded' ) );
-	  	}
-	}
-	
-	/**
-	 * Display message if Voce_Meta_API class (or Voce Post Meta plugin, more likely) is not available
-	 * @method voce_meta_api_not_loaded
-	 * @return void
-	 */
-	public static function voce_meta_api_not_loaded() {
-	    printf(
-	      '<div class="error"><p>%s</p></div>',
-	      __('Voce Post Meta Date Plugin cannot be utilized without the <a href="https://github.com/voceconnect/voce-post-meta" target="_BLANK">Voce Post Meta</a> plugin.')
-	    );
-	}		
-
 }
 
 Voce_Post_Meta_Date::initialize();
