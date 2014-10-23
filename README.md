@@ -4,7 +4,7 @@ Contributors: markparolisi, voceplatforms
 Tags: post, meta, date  
 Requires at least: 3.5.0  
 Tested up to: 3.8.1  
-Stable tag: 2.0.2  
+Stable tag: 2.1.0
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,7 @@ add_action('init', function(){
 ```min_date``` - Minimum date/time allowed for field (works in conjunction with ```min_date_field```)  
 ```default_text``` - Text to display if no date is set  
 ```default_date``` - Initial default date to set  
+```year_range``` - Range of year dropdown, as specified here: [http://api.jqueryui.com/datepicker/#option-yearRange](http://api.jqueryui.com/datepicker/#option-yearRange)
 
 
 #### Advanced Example
@@ -79,8 +80,10 @@ add_action('init', function(){
 ?>
 ```
 
+**2.1.0**
+*Added 'year_range' argument.*
 
-**2.0.2**  
+**2.0.2**
 *Standardizing check for dependencies.*
 
 **2.0.1**

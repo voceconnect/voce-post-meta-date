@@ -91,49 +91,56 @@ window.VocePostMetaDatePicker = {
      * @param object el HTML element to trigger popup
      */
     bind: function(el) {
-        var $this = this;
-        jQuery(el).datetimepicker({
-            defaultTimezone: $this.timezone,
-            dateFormat: 'yy/mm/dd',
-            timeFormat: 'hh:mm TT',
-            changeMonth: true,
-            changeYear: true,
-            onSelect: function(dateText, inst) {
-                var inputID = jQuery(this).attr('id').replace('-formatted', ''),
-                    unixDate = $this.timepickerToUnix(dateText);
-                jQuery('#'+inputID).val(unixDate);
-            },
-            onClose: function(dateText, inst) {
-                var $el = jQuery(this),
-                    timepickerToUnix = $this.timepickerToUnix,
-                    elLimits = $this.getMinMax($el),
-                    newMin = elLimits.elMin,
-                    newMinUnix = timepickerToUnix(newMin),
-                    newMax = elLimits.elMax,
-                    newMaxUnix = timepickerToUnix(newMax),
-                    elDateUnix = timepickerToUnix(dateText),
-                    inputID = $el.attr('id').replace('-formatted', '');
+        var $this = this,
+			$el = jQuery(el),
+			opts = {
+				defaultTimezone: $this.timezone,
+				dateFormat: 'yy/mm/dd',
+				timeFormat: 'hh:mm TT',
+				changeMonth: true,
+				changeYear: true,
+				onSelect: function(dateText, inst) {
+					var inputID = jQuery(this).attr('id').replace('-formatted', ''),
+						unixDate = $this.timepickerToUnix(dateText);
+					jQuery('#'+inputID).val(unixDate);
+				},
+				onClose: function(dateText, inst) {
+					var $el = jQuery(this),
+						timepickerToUnix = $this.timepickerToUnix,
+						elLimits = $this.getMinMax($el),
+						newMin = elLimits.elMin,
+						newMinUnix = timepickerToUnix(newMin),
+						newMax = elLimits.elMax,
+						newMaxUnix = timepickerToUnix(newMax),
+						elDateUnix = timepickerToUnix(dateText),
+						inputID = $el.attr('id').replace('-formatted', '');
 
-                // if closed with no date selected, dateText takes on $el.val() (the default text) and sets the date to today's date
-                // ------------------------------------------------------------
-                if ($el.val() === $el.data('default_text')) {
-                    $el.datetimepicker('setDate', null).val($el.data('default_text'));
-                    jQuery('#'+inputID).val('');
-                }
-                else
-                // ------------------------------------------------------------
-                if (elDateUnix < newMinUnix) {
-                    $el.datetimepicker('setDate', newMin).val(newMin);
-                    jQuery('#'+inputID).val(newMinUnix);
-                }
-                else if (elDateUnix > newMaxUnix) {
-                    $el.datetimepicker('setDate', newMax).val(newMax);
-                    jQuery('#'+inputID).val(newMaxUnix);
-                }
+					// if closed with no date selected, dateText takes on $el.val() (the default text) and sets the date to today's date
+					// ------------------------------------------------------------
+					if ($el.val() === $el.data('default_text')) {
+						$el.datetimepicker('setDate', null).val($el.data('default_text'));
+						jQuery('#'+inputID).val('');
+					}
+					else
+					// ------------------------------------------------------------
+					if (elDateUnix < newMinUnix) {
+						$el.datetimepicker('setDate', newMin).val(newMin);
+						jQuery('#'+inputID).val(newMinUnix);
+					}
+					else if (elDateUnix > newMaxUnix) {
+						$el.datetimepicker('setDate', newMax).val(newMax);
+						jQuery('#'+inputID).val(newMaxUnix);
+					}
 
-                $this.updateLimits(this);
-            }
-        });
+					$this.updateLimits(this);
+				}
+			};
+
+		if ($el.data('year_range')) {
+			opts.yearRange = $el.data('year_range');
+		}
+
+        jQuery(el).datetimepicker(opts);
     },
     /**
      * Set the initial date in the textbox and in timepicker
