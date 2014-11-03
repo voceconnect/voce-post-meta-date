@@ -177,7 +177,11 @@ function voce_date_field_display( $field, $value, $post_id ) {
 }
 
 function voce_date_field_sanitize( $field, $old, $new, $post_id ) {
-	return intval($new);
+	if(is_numeric($new)) {
+		return intval($new);
+	} else {
+		return null;
+	}
 }
 
 endif;
