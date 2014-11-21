@@ -3,7 +3,7 @@
   Plugin Name: Voce Meta Date
   Plugin URI: http://vocecommunications.com
   Description: Extends Voce Post Meta with a date picker field
-  Version: 2.0.2
+  Version: 2.1.0
   Author: markparolisi, banderon, voceplatforms
   Author URI: http://vocecommunications.com
   License: GPLv2
@@ -160,14 +160,15 @@ function voce_date_field_display( $field, $value, $post_id ) {
 		'min_date_field' => '',
 		'default_text'   => 'Select Date',
 		'default_date'   => '',
+		'year_range'     => '',
 	);
 	$args = wp_parse_args( $field->args, $defaults );
 
-	$input_pattern = '<input type="text" class="datepicker" id="%s-formatted" data-default_text="%s" data-default_date="%s" data-max_date="%s" data-min_date="%s" data-max_date_field="%s" data-min_date_field="%s" readonly />';
+	$input_pattern = '<input type="text" class="datepicker" id="%s-formatted" data-default_text="%s" data-default_date="%s" data-max_date="%s" data-min_date="%s" data-max_date_field="%s" data-min_date_field="%s" data-year_range="%s" readonly />';
 	?>
 	<p>
 		<?php voce_field_label_display( $field ); ?>
-		<?php printf( $input_pattern, $field->get_input_id(), esc_attr( $args['default_text'] ), esc_attr( $args['default_date'] ), esc_attr( $args['max_date'] ), esc_attr( $args['min_date'] ), esc_attr( $args['max_date_field'] ), esc_attr( $args['min_date_field'] ) ); ?>
+		<?php printf( $input_pattern, $field->get_input_id(), esc_attr( $args['default_text'] ), esc_attr( $args['default_date'] ), esc_attr( $args['max_date'] ), esc_attr( $args['min_date'] ), esc_attr( $args['max_date_field'] ), esc_attr( $args['min_date_field'] ), esc_attr( $args['year_range'] ) ); ?>
 		<input class="hidden" type="hidden" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr( $value ); ?>"  />
 		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
 		<?php echo !empty( $field->description ) ? ('<br><span class="description">' . wp_kses( $field->description, Voce_Meta_API::GetInstance()->description_allowed_html ) . '</span>') : ''; ?>
