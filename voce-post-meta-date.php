@@ -147,9 +147,13 @@ class Voce_Post_Meta_Date {
 Voce_Post_Meta_Date::initialize();
 
 function voce_date_field_display( $field, $value, $post_id ) {
+	$date_id = $field->get_input_id() . '-date';
+	$time_id = $field->get_input_id() . '-time';
+	$date_name = $field->get_name() . '[date]';
+	$time_name = $field->get_name() . '[time]';
 	?>
-		<input type="text" class="datepicker" />
-		<input type="text" class="timepicker" />
+		<input type="text" class="datepicker" id="<?php echo $date_id; ?>" name="<?php echo $date_name; ?>" />
+		<input type="text" class="timepicker" id="<?php echo $time_id; ?>" name="<?php echo $time_name; ?>" />
 	<?php
 }
 
