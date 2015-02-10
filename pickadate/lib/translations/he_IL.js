@@ -10,7 +10,3 @@ jQuery.extend( jQuery.fn.pickadate.defaults, {
     format: 'yyyy mmmmב d dddd',
     formatSubmit: 'yyyy/mm/dd'
 });
-
-jQuery.extend( jQuery.fn.pickatime.defaults, {
-    clear: 'למחוק'
-});

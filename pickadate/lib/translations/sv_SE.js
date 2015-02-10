@@ -5,18 +5,9 @@ jQuery.extend( jQuery.fn.pickadate.defaults, {
     monthsShort: [ 'jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec' ],
     weekdaysFull: [ 'söndag', 'måndag', 'tisdag', 'onsdag', 'torsdag', 'fredag', 'lördag' ],
     weekdaysShort: [ 'sön', 'mån', 'tis', 'ons', 'tor', 'fre', 'lör' ],
-    today: 'Idag',
-    clear: 'Rensa',
-    close: 'Stäng',
+    today: 'i dag',
+    clear: 'bort',
     firstDay: 1,
-    format: 'yyyy-mm-dd',
-    formatSubmit: 'yyyy/mm/dd',
-    labelMonthNext: 'Nästa månad',
-    labelMonthPrev: 'Föregående månad',
-    labelMonthSelect: 'Välj månad',
-    labelYearSelect: 'Välj år'
-});
-
-jQuery.extend( jQuery.fn.pickatime.defaults, {
-    clear: 'Rensa'
+    format: 'd/m yyyy',
+    formatSubmit: 'yyyy/mm/dd'
 });

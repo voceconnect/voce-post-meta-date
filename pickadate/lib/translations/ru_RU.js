@@ -12,7 +12,3 @@ jQuery.extend( jQuery.fn.pickadate.defaults, {
     format: 'd mmmm yyyy г.',
     formatSubmit: 'yyyy/mm/dd'
 });
-
-jQuery.extend( jQuery.fn.pickatime.defaults, {
-    clear: 'удалить'
-});

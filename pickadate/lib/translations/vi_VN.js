@@ -9,7 +9,3 @@ jQuery.extend( jQuery.fn.pickadate.defaults, {
     clear: 'Xoá',
     firstDay: 1
 });
-
-jQuery.extend( jQuery.fn.pickatime.defaults, {
-    clear: 'Xoá'
-});

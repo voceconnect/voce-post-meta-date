@@ -11,12 +11,8 @@ jQuery.extend( jQuery.fn.pickadate.defaults, {
     firstDay: 1,
     format: 'dd mmmm yyyy',
     formatSubmit: 'yyyy/mm/dd',
-    labelMonthNext:"Mois suivant",
-    labelMonthPrev:"Mois précédent",
-    labelMonthSelect:"Sélectionner un mois",
-    labelYearSelect:"Sélectionner une année"
-});
-
-jQuery.extend( jQuery.fn.pickatime.defaults, {
-    clear: 'Effacer'
+    labelMonthNext: 'Mois suivant',
+    labelMonthPrev: 'Mois précédent',
+    labelMonthSelect: 'Sélectionner un mois',
+    labelYearSelect: 'Sélectionner une année'
 });
