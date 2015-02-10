@@ -74,8 +74,8 @@ class Voce_Post_Meta_Date {
 		}
 		// Pickadate Styles
 		wp_enqueue_style( 'pickadate-picker', self::plugins_url( 'pickadate/lib/themes/default.css', __FILE__ ) );
-		wp_enqueue_style( 'pickadate-picker', self::plugins_url( 'pickadate/lib/themes/default.date.css', __FILE__ ) );
-		wp_enqueue_style( 'pickadate-picker', self::plugins_url( 'pickadate/lib/themes/default.time.css', __FILE__ ) );
+		wp_enqueue_style( 'pickadate-picker-date', self::plugins_url( 'pickadate/lib/themes/default.date.css', __FILE__ ) );
+		wp_enqueue_style( 'pickadate-picker-time', self::plugins_url( 'pickadate/lib/themes/default.time.css', __FILE__ ) );
 
 		// Pickadate Scripts
 		wp_enqueue_script( 'pickadate-picker', self::plugins_url( 'pickadate/lib/picker.js', __FILE__ ), array('jquery') );
