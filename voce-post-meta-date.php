@@ -146,13 +146,20 @@ class Voce_Post_Meta_Date {
 
 Voce_Post_Meta_Date::initialize();
 
+function voce_date_field_display( $field, $value, $post_id ) {
+	?>
+		<input type="text" class="datepicker" />
+		<input type="text" class="timepicker" />
+	<?php
+}
+
 /**
  * Public callback function to display HTML meta form field
  * @param object $field
  * @param string $value
  * @param int $post_id
  */
-function voce_date_field_display( $field, $value, $post_id ) {
+function voce_date_field_display_old( $field, $value, $post_id ) {
 	$defaults = array(
 		'max_date'       => '',
 		'min_date'       => '',
