@@ -72,7 +72,10 @@ class Voce_Post_Meta_Date {
 		if( !in_array( $hook, $pages ) ) {
 			return;
 		}
-		wp_enqueue_script( 'voce-post-meta-date', self::plugins_url( 'voce-post-meta-date.js', __FILE__ ), array('jquery', 'jquery-ui-core') );
+		wp_enqueue_script( 'pickadate-picker', self::plugins_url( 'pickadate/lib/picker.js', __FILE__ ), array('jquery') );
+		wp_enqueue_script( 'pickadate-picker-date', self::plugins_url( 'pickadate/lib/picker.date.js', __FILE__ ), array('jquery') );
+		wp_enqueue_script( 'pickadate-picker-time', self::plugins_url( 'pickadate/lib/picker.time.js', __FILE__ ), array('jquery') );
+		wp_enqueue_script( 'voce-post-meta-date', self::plugins_url( 'voce-post-meta-date.js', __FILE__ ), array('jquery', 'pickadate-picker', 'pickadate-picker-time', 'pickadate-picker-date') );
 	}
 
 	public static function print_timezone() {
