@@ -18,7 +18,6 @@ class Voce_Post_Meta_Date {
 	 */
 	public static function initialize() {
 		add_filter( 'meta_type_mapping', array(__CLASS__, 'meta_type_mapping') );
-		add_action( 'admin_head', array(__CLASS__, 'css_fix') );
 		add_action( 'admin_enqueue_scripts', array(__CLASS__, 'action_admin_enqueue_scripts') );
 		add_action( 'admin_print_footer_scripts', array(__CLASS__, 'print_timezone') );
 		add_action( 'admin_init', array( __CLASS__, 'admin_init' ) );
@@ -64,15 +63,6 @@ class Voce_Post_Meta_Date {
 		}
 	}
 
-	public static function css_fix() {
-		echo "
-		<style>
-			#ui-datepicker-div{
-				display:none;
-			}
-		</style>";
-	}
-
 	/**
 	 * Enqueue admin JavaScripts
 	 * @return void
@@ -82,8 +72,6 @@ class Voce_Post_Meta_Date {
 		if( !in_array( $hook, $pages ) ) {
 			return;
 		}
-		wp_enqueue_style( 'jquery-datepicker-style', self::plugins_url( 'jquery-ui.css', __FILE__ ) );
-		wp_enqueue_script( 'jquery-timepicker', self::plugins_url( 'timepicker.js', __FILE__ ), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'jquery-ui-slider') );
 		wp_enqueue_script( 'voce-post-meta-date', self::plugins_url( 'voce-post-meta-date.js', __FILE__ ), array('jquery', 'jquery-ui-core') );
 	}
 
