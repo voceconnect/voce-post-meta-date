@@ -1,14 +1,12 @@
 ;(function ( $, window, document, undefined ) {
 
 	$(document).ready(function(){
-		$( '.datepicker' ).pickadate({
-			hiddenName: true,
-			formatSubmit: 'yyyy/mm/dd'
-		});
-		$( '.timepicker' ).pickatime({
-			hiddenName: true,
-			formatSubmit: 'yyyy/mm/dd'
-		});
+		$datepick = $( '.datepicker' ).pickadate();
+		$timepick = $( '.timepicker' ).pickatime();
+
+		$datepick.on( 'change', function() {
+			console.log(this);
+		} );
 	});
 
 })( jQuery, window, document );
