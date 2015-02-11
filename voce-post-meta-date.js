@@ -34,12 +34,25 @@
 		},
 
 		onClose: function() {
+			var timestamp = 0;
 			var dateVal = this.$datePicker.get('select');
 			var timeVal = this.$timePicker.get('select');
+
+			if ( dateVal !== null ) {
+				// Convert ms to seconds
+				timestamp += dateVal.pick / 1000;
+			}
+
+			if ( timeVal !== null ) {
+				// Convert min to seconds
+				timestamp += timeVal.pick * 60;
+			}
+
+			this.updateField(timestamp);
 		},
 
-		updateHidden: function() {
-
+		updateField: function( value ) {
+			this.$field.val(value);
 		}
 
 	};

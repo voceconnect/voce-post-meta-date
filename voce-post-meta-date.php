@@ -151,7 +151,7 @@ function voce_date_field_display( $field, $value, $post_id ) {
 	?>
 		<p><label>Date: </label><input type="text" class="datepicker" /></p>
 		<p><label>Time: </label><input type="text" class="timepicker" /></p>
-		<input type="hidden" class="vpm-datetime" id="<?php $field->get_input_id(); ?>" name="<?php $field->get_name(); ?>" value="<?php echo esc_attr($value); ?>" />
+		<input type="hidden" class="vpm-datetime" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr($value); ?>" />
 	<?php
 }
 
