@@ -25,7 +25,7 @@
 			var _this = this;
 			var callbacks = {
 				close: function() {
-					_this.onClose();
+					_this.getNewTime();
 				}
 			};
 
@@ -33,7 +33,7 @@
 			this.$timePicker.on(callbacks);
 		},
 
-		onClose: function() {
+		getNewTime: function() {
 			var timestamp = 0;
 			var dateVal = this.$datePicker.get('select');
 			var timeVal = this.$timePicker.get('select');
