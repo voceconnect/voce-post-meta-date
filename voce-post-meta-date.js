@@ -16,20 +16,26 @@
 		init: function () {
 			this.$dateField.pickadate();
 			this.$timeField.pickatime();
+			this.$datePicker = this.$dateField.pickadate('picker');
+			this.$timePicker = this.$timeField.pickatime('picker');
 			this.listen();
 		},
 
 		listen: function() {
+			var _this = this;
 			var callbacks = {
-				close: this.onClose
+				close: function() {
+					_this.onClose();
+				}
 			};
 
-			this.$dateField.pickadate('picker').on(callbacks);
-			this.$timeField.pickatime('picker').on(callbacks);
+			this.$datePicker.on(callbacks);
+			this.$timePicker.on(callbacks);
 		},
 
 		onClose: function() {
-			console.log(this);
+			var dateVal = this.$datePicker.get('select');
+			var timeVal = this.$timePicker.get('select');
 		},
 
 		updateHidden: function() {
