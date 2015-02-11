@@ -73,15 +73,15 @@ class Voce_Post_Meta_Date {
 			return;
 		}
 		// Pickadate Styles
-		wp_enqueue_style( 'pickadate-picker', self::plugins_url( 'pickadate/lib/themes/default.css', __FILE__ ) );
-		wp_enqueue_style( 'pickadate-picker-date', self::plugins_url( 'pickadate/lib/themes/default.date.css', __FILE__ ) );
-		wp_enqueue_style( 'pickadate-picker-time', self::plugins_url( 'pickadate/lib/themes/default.time.css', __FILE__ ) );
+		wp_enqueue_style( 'pickadate-picker', self::plugins_url( 'pickadate/themes/default.css', __FILE__ ) );
+		wp_enqueue_style( 'pickadate-picker-date', self::plugins_url( 'pickadate/themes/default.date.css', __FILE__ ) );
+		wp_enqueue_style( 'pickadate-picker-time', self::plugins_url( 'pickadate/themes/default.time.css', __FILE__ ) );
 
 		// Pickadate Scripts
-		wp_enqueue_script( 'pickadate-picker', self::plugins_url( 'pickadate/lib/picker.js', __FILE__ ), array('jquery') );
-		wp_enqueue_script( 'pickadate-picker-date', self::plugins_url( 'pickadate/lib/picker.date.js', __FILE__ ), array('jquery', 'pickadate-picker') );
-		wp_enqueue_script( 'pickadate-picker-time', self::plugins_url( 'pickadate/lib/picker.time.js', __FILE__ ), array('jquery', 'pickadate-picker') );
-		wp_enqueue_script( 'pickadate-legacy', self::plugins_url( 'pickadate/lib/legacy.js', __FILE__ ), array('jquery', 'pickadate-picker') );
+		wp_enqueue_script( 'pickadate-picker', self::plugins_url( 'pickadate/picker.js', __FILE__ ), array('jquery') );
+		wp_enqueue_script( 'pickadate-picker-date', self::plugins_url( 'pickadate/picker.date.js', __FILE__ ), array('jquery', 'pickadate-picker') );
+		wp_enqueue_script( 'pickadate-picker-time', self::plugins_url( 'pickadate/picker.time.js', __FILE__ ), array('jquery', 'pickadate-picker') );
+		wp_enqueue_script( 'pickadate-legacy', self::plugins_url( 'pickadate/legacy.js', __FILE__ ), array('jquery', 'pickadate-picker') );
 
 		// Custom initialize script
 		wp_enqueue_script( 'voce-post-meta-date', self::plugins_url( 'voce-post-meta-date.js', __FILE__ ), array('jquery', 'pickadate-picker-date', 'pickadate-picker-time', 'pickadate-legacy') );
