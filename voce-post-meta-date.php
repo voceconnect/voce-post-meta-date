@@ -147,6 +147,20 @@ class Voce_Post_Meta_Date {
 Voce_Post_Meta_Date::initialize();
 
 function voce_date_field_display( $field, $value, $post_id ) {
+	$defaults = array(
+		'min_date' => false,
+		'max_date' => false
+	);
+	$args = wp_parse_args( $field->args, $defaults );
+
+	$field_settings = array();
+
+	if ( !empty($args['min_date']) )
+		$field_settings['min'] = $args['min_date'] * 1000;
+
+	if ( !empty($args['max_date']) )
+		$field_settings['max'] = $args['max_date'] * 1000;
+
 	if ( $value ) {
 		$date_val = date('j F, Y', $value);
 		$time_val = date('g:i A', $value);
@@ -159,7 +173,7 @@ function voce_date_field_display( $field, $value, $post_id ) {
 		<strong><?php voce_field_label_display( $field ); ?></strong>
 		<p><label>Date: </label><input type="text" class="datepicker" value="<?php echo esc_attr($date_val); ?>" /></p>
 		<p><label>Time: </label><input type="text" class="timepicker" value="<?php echo esc_attr($time_val); ?>" /></p>
-		<input type="hidden" class="vpm-datetime" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr($value); ?>" />
+		<input type="hidden" class="vpm-datetime" data-field-settings="<?php echo esc_attr(json_encode($field_settings)); ?>" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr($value); ?>" />
 	</div>
 	<?php
 }

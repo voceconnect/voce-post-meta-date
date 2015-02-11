@@ -1,9 +1,5 @@
 ;(function ( $, window, document, undefined ) {
 
-	var defaults = {
-
-	};
-
 	function vpmDateTime ( element, options ) {
 		this.$field = $(element);
 		this.$dateField = this.$field.parent().find('.datepicker');
@@ -14,8 +10,8 @@
 	vpmDateTime.prototype = {
 
 		init: function () {
-			this.$dateField.pickadate();
-			this.$timeField.pickatime();
+			this.$dateField.pickadate(this.settings);
+			this.$timeField.pickatime(this.settings);
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
 			this.listen();
