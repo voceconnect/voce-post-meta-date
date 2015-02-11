@@ -147,10 +147,12 @@ class Voce_Post_Meta_Date {
 Voce_Post_Meta_Date::initialize();
 
 function voce_date_field_display( $field, $value, $post_id ) {
-	var_dump($value);
+	$value = intval($value) ?: 0;
+	$date_val = date('j F, Y', $value);
+	$time_val = date('g:i A', $value);
 	?>
-		<p><label>Date: </label><input type="text" class="datepicker" /></p>
-		<p><label>Time: </label><input type="text" class="timepicker" /></p>
+		<p><label>Date: </label><input type="text" class="datepicker" value="<?php echo esc_attr($date_val); ?>" /></p>
+		<p><label>Time: </label><input type="text" class="timepicker" value="<?php echo esc_attr($time_val); ?>" /></p>
 		<input type="hidden" class="vpm-datetime" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr($value); ?>" />
 	<?php
 }
