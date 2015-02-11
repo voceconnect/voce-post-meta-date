@@ -1,24 +1,47 @@
 ;(function ( $, window, document, undefined ) {
 
-	var updateHidden = function( picker ) {
-		console.log(picker);
+	var defaults = {
+
+	};
+
+	function vpmDateTime ( element, options ) {
+		this.$field = $(element);
+		this.$dateField = this.$field.parent().find('.datepicker');
+		this.$timeField = this.$field.parent().find('.timepicker');
+		this.init();
 	}
 
-	$(document).ready(function(){
+	vpmDateTime.prototype = {
 
-		var callbacks = {
-			close: function() {
-				var picker = this;
-				updateHidden(picker);
-			}
-		};
+		init: function () {
+			this.$dateField.pickadate();
+			this.$timeField.pickatime();
+			this.listen();
+		},
 
-		var $datepick = $( '.datepicker' ).pickadate();
-		var $datepicker = $datepick.pickadate('picker').on(callbacks);
+		listen: function() {
+			var callbacks = {
+				close: this.onClose
+			};
 
-		var $timepick = $( '.timepicker' ).pickatime();
-		var $timepicker = $timepick.pickatime('picker').on(callbacks);
+			this.$dateField.pickadate('picker').on(callbacks);
+			this.$timeField.pickatime('picker').on(callbacks);
+		},
 
-	});
+		onClose: function() {
+			console.log(this);
+		},
+
+		updateHidden: function() {
+
+		}
+
+	};
+
+    $(document).ready(function(){
+        $('.vpm-datetime').each(function(i, e){
+            new vpmDateTime( this, $(this).data('field-settings') );
+        });
+    });
 
 })( jQuery, window, document );
