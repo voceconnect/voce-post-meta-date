@@ -26,6 +26,7 @@
 			this.$timeField.pickatime(this.settings.timeArgs);
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
+			this.listen();
 		},
 
 		handleSettings: function() {
@@ -49,12 +50,14 @@
 
 			this.$datePicker.on(callbacks);
 			this.$timePicker.on(callbacks);
+		},
 
+		doMinMax: function() {
 			if ( this.settings.minField ) {
 				$minPicker = this.getConnectedPicker(this.settings.minField);
 				if ( $minPicker ) {
 					var minDateVal = $minPicker.get('select');
-					_this.$datePicker.set('min', minDateVal.obj, {muted:true});
+					this.$datePicker.set('min', minDateVal.obj, {muted:true});
 
 					$minPicker.on( 'set', function() {
 						var minDateVal = $minPicker.get('select');
@@ -67,7 +70,8 @@
 				$maxPicker = this.getConnectedPicker(this.settings.maxField);
 				if ( $maxPicker ) {
 					var maxDateVal = $maxPicker.get('select');
-					_this.$datePicker.set('max', maxDateVal.obj, {muted:true});
+					this.$datePicker.set('max', maxDateVal.obj, {muted:true});
+
 					$maxPicker.on( 'set', function() {
 						var maxDateVal = $maxPicker.get('select');
 						_this.$datePicker.set('max', maxDateVal.obj, {muted:true});
@@ -118,7 +122,7 @@
             datetimes.push( new vpmDateTime( this, $(this).data('field-settings') ) );
         });
         $.each( datetimes, function(i, e) {
-        	e.listen();
+        	e.doMinMax();
         } );
     });
 
