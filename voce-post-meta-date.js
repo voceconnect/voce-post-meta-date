@@ -52,20 +52,22 @@
 
 			if ( this.settings.minField ) {
 				$minPicker = this.getConnectedPicker(this.settings.minField);
-
-				$minPicker.on( 'set', function() {
-					var minDateVal = $minPicker.get('select');
-					_this.$datePicker.set('min', minDateVal.obj, {muted:true});
-				} );
+				if ( $minPicker ) {
+					$minPicker.on( 'set', function() {
+						var minDateVal = $minPicker.get('select');
+						_this.$datePicker.set('min', minDateVal.obj, {muted:true});
+					} );
+				}
 			}
 
 			if ( this.settings.maxField ) {
 				$maxPicker = this.getConnectedPicker(this.settings.maxField);
-
-				$maxPicker.on( 'set', function() {
-					var maxDateVal = $maxPicker.get('select');
-					_this.$datePicker.set('max', maxDateVal.obj, {muted:true});
-				} );
+				if ( $maxPicker ) {
+					$maxPicker.on( 'set', function() {
+						var maxDateVal = $maxPicker.get('select');
+						_this.$datePicker.set('max', maxDateVal.obj, {muted:true});
+					} );
+				}
 			}
 		},
 
