@@ -57,7 +57,7 @@
 
 				$minFieldDatePicker.on( 'set', function() {
 					var minDateVal = $minFieldDatePicker.get('select');
-					_this.$datePicker.set('min', minDateVal.obj);
+					_this.$datePicker.set('min', minDateVal.obj, {muted:true});
 				} );
 			}
 
@@ -68,7 +68,7 @@
 
 				$maxFieldDatePicker.on( 'set', function() {
 					var maxDateVal = $maxFieldDatePicker.get('select');
-					_this.$datePicker.set('max', maxDateVal.obj);
+					_this.$datePicker.set('max', maxDateVal.obj, {muted:true});
 				} );
 			}
 		},
