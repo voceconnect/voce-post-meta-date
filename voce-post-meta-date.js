@@ -20,7 +20,6 @@
 
 		init: function () {
 			this.handleSettings();
-			console.log(this.settings);
 			this.$dateField.pickadate(this.settings.date);
 			this.$timeField.pickatime(this.settings.time);
 			this.$datePicker = this.$dateField.pickadate('picker');
