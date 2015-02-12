@@ -63,13 +63,8 @@
 
 			if ( this.settings.maxField ) {
 				$maxField = $('#'+this.settings.maxField);
-				console.log($maxField);
-
 				$maxFieldDate = $maxField.parent().find('.datepicker');
-				console.log($maxFieldDate);
-
 				$maxFieldDatePicker = $maxFieldDate.pickadate('picker');
-				console.log($maxFieldDatePicker);
 
 				$maxFieldDatePicker.on( 'set', function() {
 					var maxDateVal = $maxFieldDatePicker.get('select');
