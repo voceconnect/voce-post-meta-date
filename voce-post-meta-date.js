@@ -1,7 +1,13 @@
 ;(function ( $, window, document, undefined ) {
 
+	var defaults = {
+		min: undefined,
+		max: undefined
+	};
+
 	function vpmDateTime ( element, options ) {
 		this.$field = $(element);
+		this.settings = $.extend( {}, defaults, options );
 		this.$dateField = this.$field.parent().find('.datepicker');
 		this.$timeField = this.$field.parent().find('.timepicker');
 		this.init();
@@ -10,11 +16,23 @@
 	vpmDateTime.prototype = {
 
 		init: function () {
+			this.handleSettings();
 			this.$dateField.pickadate(this.settings);
-			this.$timeField.pickatime(this.settings);
+			this.$timeField.pickatime();
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
 			this.listen();
+		},
+
+		handleSettings: function() {
+			if ( this.settings.min ) {
+				var timestamp = this.settings.min;
+				this.settings.min = new Date(timestamp);
+			}
+			if ( this.settings.max ) {
+				var timestamp = this.settings.max;
+				this.settings.max = new Date(timestamp);
+			}
 		},
 
 		listen: function() {
