@@ -26,7 +26,7 @@
 			this.$timeField.pickatime(this.settings.timeArgs);
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
-			this.initlisten();
+			this.initListen();
 		},
 
 		initSettings: function() {
