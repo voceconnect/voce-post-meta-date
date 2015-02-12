@@ -146,7 +146,7 @@ class Voce_Post_Meta_Date {
 	private static function get_field_settings( $args ) {
 		$field_settings = array(
 			'dateField' => array(),
-			'timeField' => array()
+			'timeField' => array(),
 		);
 
 		if ( !empty($args['min_date']) )
@@ -155,13 +155,21 @@ class Voce_Post_Meta_Date {
 		if ( !empty($args['max_date']) )
 			$field_settings['dateField']['max'] = $args['max_date'] * 1000;
 
+		if ( !empty($args['min_date_field']) )
+			$field_settings['minField'] = $args['min_date_field'];
+
+		if ( !empty($args['max_date_field']) )
+			$field_settings['maxField'] = $args['max_date_field'];
+
 		return $field_settings;
 	}
 
 	public static function display_field( $field, $value, $post_id ) {
 		$defaults = array(
 			'min_date' => false,
-			'max_date' => false
+			'max_date' => false,
+			'min_date_field' => false,
+			'max_date_field' => false
 		);
 		$args = wp_parse_args( $field->args, $defaults );
 		$field_settings = self::get_field_settings( $args );

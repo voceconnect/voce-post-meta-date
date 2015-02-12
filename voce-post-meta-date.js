@@ -1,6 +1,8 @@
 ;(function ( $, window, document, undefined ) {
 
 	var defaults = {
+		minField: false,
+		maxField: false,
 		timeField: {},
 		dateField: {
 			min: undefined,
@@ -48,6 +50,33 @@
 
 			this.$datePicker.on(callbacks);
 			this.$timePicker.on(callbacks);
+
+			if ( this.settings.minField ) {
+				$minField = $('#'+this.settings.minField);
+				$minFieldDate = $minField.parent().find('.datepicker');
+				$minFieldDatePicker = $minFieldDate.pickadate('picker');
+
+				$minFieldDatePicker.on( 'close', function() {
+					var minDateVal = $minFieldDatePicker.get('select');
+					_this.$datePicker.set('min', minDateVal.obj);
+				} );
+			}
+
+			if ( this.settings.maxField ) {
+				$maxField = $('#'+this.settings.maxField);
+				console.log($maxField);
+
+				$maxFieldDate = $maxField.parent().find('.datepicker');
+				console.log($maxFieldDate);
+
+				// $maxFieldDatePicker = $maxFieldDate.pickadate('picker');
+				// console.log($maxFieldDatePicker);
+
+				// $maxFieldDatePicker.on( 'close', function() {
+				// 	var maxDateVal = $maxFieldDatePicker.get('select');
+				// 	_this.$datePicker.set('max', maxDateVal.obj);
+				// } );
+			}
 		},
 
 		getNewTime: function() {
