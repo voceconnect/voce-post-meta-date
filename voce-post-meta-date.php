@@ -143,13 +143,7 @@ class Voce_Post_Meta_Date {
 		return $mapping;
 	}
 
-	public static function display_field( $field, $value, $post_id ) {
-		$defaults = array(
-			'min_date' => false,
-			'max_date' => false
-		);
-		$args = wp_parse_args( $field->args, $defaults );
-
+	private static function get_field_settings( $args ) {
 		$field_settings = array();
 
 		if ( !empty($args['min_date']) )
@@ -157,6 +151,18 @@ class Voce_Post_Meta_Date {
 
 		if ( !empty($args['max_date']) )
 			$field_settings['max'] = $args['max_date'] * 1000;
+
+		return $field_settings;
+	}
+
+	public static function display_field( $field, $value, $post_id ) {
+		$defaults = array(
+			'min_date' => false,
+			'max_date' => false
+		);
+		$args = wp_parse_args( $field->args, $defaults );
+
+		$field_settings = self::get_field_settings();
 
 		if ( $value ) {
 			$date_val = date('j F, Y', $value);
