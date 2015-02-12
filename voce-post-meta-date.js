@@ -42,7 +42,7 @@
 		listen: function() {
 			var _this = this;
 			var callbacks = {
-				close: function() {
+				set: function() {
 					_this.getNewTime();
 				}
 			};
@@ -55,7 +55,7 @@
 				$minFieldDate = $minField.parent().find('.datepicker');
 				$minFieldDatePicker = $minFieldDate.pickadate('picker');
 
-				$minFieldDatePicker.on( 'close', function() {
+				$minFieldDatePicker.on( 'set', function() {
 					var minDateVal = $minFieldDatePicker.get('select');
 					_this.$datePicker.set('min', minDateVal.obj);
 				} );
@@ -71,7 +71,7 @@
 				$maxFieldDatePicker = $maxFieldDate.pickadate('picker');
 				console.log($maxFieldDatePicker);
 
-				$maxFieldDatePicker.on( 'close', function() {
+				$maxFieldDatePicker.on( 'set', function() {
 					var maxDateVal = $maxFieldDatePicker.get('select');
 					_this.$datePicker.set('max', maxDateVal.obj);
 				} );
