@@ -137,7 +137,7 @@ class Voce_Post_Meta_Date {
 			'class' => 'Voce_Meta_Field',
 			'args' => array(
 				'display_callbacks' => array( array( __CLASS__, 'display_field' ) ),
-				'sanitize_callbacks' => array('voce_date_field_sanitize')
+				'sanitize_callbacks' => array( array( __CLASS__, 'sanitize_field' ) )
 			)
 		);
 		return $mapping;
@@ -173,6 +173,14 @@ class Voce_Post_Meta_Date {
 			<input type="hidden" class="vpm-datetime" data-field-settings="<?php echo esc_attr(json_encode($field_settings)); ?>" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr($value); ?>" />
 		</div>
 		<?php
+	}
+
+	public static function sanitize_field( $field, $old, $new, $post_id ) {
+		if(is_numeric($new)) {
+			return intval($new);
+		} else {
+			return null;
+		}
 	}
 
 }
