@@ -26,7 +26,6 @@
 			this.$timeField.pickatime(this.settings.timeField);
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
-			this.listen();
 		},
 
 		handleSettings: function() {
@@ -69,13 +68,13 @@
 				$maxFieldDate = $maxField.parent().find('.datepicker');
 				console.log($maxFieldDate);
 
-				// $maxFieldDatePicker = $maxFieldDate.pickadate('picker');
-				// console.log($maxFieldDatePicker);
+				$maxFieldDatePicker = $maxFieldDate.pickadate('picker');
+				console.log($maxFieldDatePicker);
 
-				// $maxFieldDatePicker.on( 'close', function() {
-				// 	var maxDateVal = $maxFieldDatePicker.get('select');
-				// 	_this.$datePicker.set('max', maxDateVal.obj);
-				// } );
+				$maxFieldDatePicker.on( 'close', function() {
+					var maxDateVal = $maxFieldDatePicker.get('select');
+					_this.$datePicker.set('max', maxDateVal.obj);
+				} );
 			}
 		},
 
@@ -104,9 +103,13 @@
 	};
 
     $(document).ready(function(){
+    	var datetimes = [];
         $('.vpm-datetime').each(function(i, e){
-            new vpmDateTime( this, $(this).data('field-settings') );
+            datetimes.push( new vpmDateTime( this, $(this).data('field-settings') ) );
         });
+        $.each( datetimes, function(i, e) {
+        	e.listen();
+        } );
     });
 
 })( jQuery, window, document );
