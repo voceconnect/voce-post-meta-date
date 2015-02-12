@@ -21,15 +21,15 @@
 	vpmDateTime.prototype = {
 
 		init: function () {
-			this.handleSettings();
+			this.initSettings();
 			this.$dateField.pickadate(this.settings.dateArgs);
 			this.$timeField.pickatime(this.settings.timeArgs);
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
-			this.listen();
+			this.initlisten();
 		},
 
-		handleSettings: function() {
+		initSettings: function() {
 			if ( this.settings.dateArgs.min ) {
 				var timestamp = this.settings.dateArgs.min;
 				this.settings.dateArgs.min = new Date(timestamp);
@@ -40,7 +40,7 @@
 			}
 		},
 
-		listen: function() {
+		initListen: function() {
 			var _this = this;
 			var callbacks = {
 				set: function() {
@@ -52,7 +52,7 @@
 			this.$timePicker.on(callbacks);
 		},
 
-		doMinMax: function() {
+		initMinMax: function() {
 			if ( this.settings.minField ) {
 				$minPicker = this.getConnectedPicker(this.settings.minField);
 				if ( $minPicker ) {
@@ -122,7 +122,7 @@
             datetimes.push( new vpmDateTime( this, $(this).data('field-settings') ) );
         });
         $.each( datetimes, function(i, e) {
-        	e.doMinMax();
+        	e.initMinMax();
         } );
     });
 
