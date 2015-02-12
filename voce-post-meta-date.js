@@ -1,8 +1,11 @@
 ;(function ( $, window, document, undefined ) {
 
 	var defaults = {
-		min: undefined,
-		max: undefined
+		time: {},
+		date: {
+			min: undefined,
+			max: undefined
+		}
 	};
 
 	function vpmDateTime ( element, options ) {
@@ -17,21 +20,22 @@
 
 		init: function () {
 			this.handleSettings();
-			this.$dateField.pickadate(this.settings);
-			this.$timeField.pickatime();
+			console.log(this.settings);
+			this.$dateField.pickadate(this.settings.date);
+			this.$timeField.pickatime(this.settings.time);
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
 			this.listen();
 		},
 
 		handleSettings: function() {
-			if ( this.settings.min ) {
-				var timestamp = this.settings.min;
-				this.settings.min = new Date(timestamp);
+			if ( this.settings.date.min ) {
+				var timestamp = this.settings.date.min;
+				this.settings.date.min = new Date(timestamp);
 			}
-			if ( this.settings.max ) {
-				var timestamp = this.settings.max;
-				this.settings.max = new Date(timestamp);
+			if ( this.settings.date.max ) {
+				var timestamp = this.settings.date.max;
+				this.settings.date.max = new Date(timestamp);
 			}
 		},
 

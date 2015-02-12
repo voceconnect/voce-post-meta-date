@@ -144,13 +144,16 @@ class Voce_Post_Meta_Date {
 	}
 
 	private static function get_field_settings( $args ) {
-		$field_settings = array();
+		$field_settings = array(
+			'date' => array(),
+			'time' => array()
+		);
 
 		if ( !empty($args['min_date']) )
-			$field_settings['min'] = $args['min_date'] * 1000;
+			$field_settings['date']['min'] = $args['min_date'] * 1000;
 
 		if ( !empty($args['max_date']) )
-			$field_settings['max'] = $args['max_date'] * 1000;
+			$field_settings['date']['max'] = $args['max_date'] * 1000;
 
 		return $field_settings;
 	}
