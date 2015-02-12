@@ -161,8 +161,7 @@ class Voce_Post_Meta_Date {
 			'max_date' => false
 		);
 		$args = wp_parse_args( $field->args, $defaults );
-
-		$field_settings = self::get_field_settings();
+		$field_settings = self::get_field_settings( $args );
 
 		if ( $value ) {
 			$date_val = date('j F, Y', $value);
