@@ -187,44 +187,4 @@ class Voce_Post_Meta_Date {
 
 Voce_Post_Meta_Date::initialize();
 
-
-
-/**
- * Public callback function to display HTML meta form field
- * @param object $field
- * @param string $value
- * @param int $post_id
- */
-function voce_date_field_display_old( $field, $value, $post_id ) {
-	$defaults = array(
-		'max_date'       => '',
-		'min_date'       => '',
-		'max_date_field' => '',
-		'min_date_field' => '',
-		'default_text'   => 'Select Date',
-		'default_date'   => '',
-		'year_range'     => '',
-	);
-	$args = wp_parse_args( $field->args, $defaults );
-
-	$input_pattern = '<input type="text" class="datepicker" id="%s-formatted" data-default_text="%s" data-default_date="%s" data-max_date="%s" data-min_date="%s" data-max_date_field="%s" data-min_date_field="%s" data-year_range="%s" readonly />';
-	?>
-	<p>
-		<?php voce_field_label_display( $field ); ?>
-		<?php printf( $input_pattern, $field->get_input_id(), esc_attr( $args['default_text'] ), esc_attr( $args['default_date'] ), esc_attr( $args['max_date'] ), esc_attr( $args['min_date'] ), esc_attr( $args['max_date_field'] ), esc_attr( $args['min_date_field'] ), esc_attr( $args['year_range'] ) ); ?>
-		<input class="hidden" type="hidden" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr( $value ); ?>"  />
-		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
-		<?php echo !empty( $field->description ) ? ('<br><span class="description">' . wp_kses( $field->description, Voce_Meta_API::GetInstance()->description_allowed_html ) . '</span>') : ''; ?>
-	</p>
-	<?php
-}
-
-function voce_date_field_sanitize( $field, $old, $new, $post_id ) {
-	if(is_numeric($new)) {
-		return intval($new);
-	} else {
-		return null;
-	}
-}
-
 endif;
