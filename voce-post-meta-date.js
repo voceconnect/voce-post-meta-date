@@ -29,13 +29,13 @@
 		},
 
 		handleSettings: function() {
-			if ( this.settings.dateField.min ) {
-				var timestamp = this.settings.dateField.min;
-				this.settings.dateField.min = new Date(timestamp);
+			if ( this.settings.dateArgs.min ) {
+				var timestamp = this.settings.dateArgs.min;
+				this.settings.dateArgs.min = new Date(timestamp);
 			}
-			if ( this.settings.dateField.max ) {
-				var timestamp = this.settings.dateField.max;
-				this.settings.dateField.max = new Date(timestamp);
+			if ( this.settings.dateArgs.max ) {
+				var timestamp = this.settings.dateArgs.max;
+				this.settings.dateArgs.max = new Date(timestamp);
 			}
 		},
 
@@ -51,26 +51,34 @@
 			this.$timePicker.on(callbacks);
 
 			if ( this.settings.minField ) {
-				$minField = $('#'+this.settings.minField);
-				$minFieldDate = $minField.parent().find('.datepicker');
-				$minFieldDatePicker = $minFieldDate.pickadate('picker');
+				$minPicker = this.getConnectedPicker(this.settings.minField);
 
-				$minFieldDatePicker.on( 'set', function() {
-					var minDateVal = $minFieldDatePicker.get('select');
+				$minPicker.on( 'set', function() {
+					var minDateVal = $minPicker.get('select');
 					_this.$datePicker.set('min', minDateVal.obj, {muted:true});
 				} );
 			}
 
 			if ( this.settings.maxField ) {
-				$maxField = $('#'+this.settings.maxField);
-				$maxFieldDate = $maxField.parent().find('.datepicker');
-				$maxFieldDatePicker = $maxFieldDate.pickadate('picker');
+				$maxPicker = this.getConnectedPicker(this.settings.maxField);
 
-				$maxFieldDatePicker.on( 'set', function() {
-					var maxDateVal = $maxFieldDatePicker.get('select');
+				$maxPicker.on( 'set', function() {
+					var maxDateVal = $maxPicker.get('select');
 					_this.$datePicker.set('max', maxDateVal.obj, {muted:true});
 				} );
 			}
+		},
+
+		getConnectedPicker: function( id ) {
+			$field = $('#'+id);
+			if ( $field.length ) {
+				$date = $field.parent().find('.datepicker');
+				if ( $date.length ) {
+					$picker = $date.pickadate('picker');
+					return $picker;
+				}
+			}
+			return false;
 		},
 
 		getNewTime: function() {
