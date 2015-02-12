@@ -3,8 +3,8 @@
 	var defaults = {
 		minField: false,
 		maxField: false,
-		timeField: {},
-		dateField: {
+		timeArgs: {},
+		dateArgs: {
 			min: undefined,
 			max: undefined
 		}
@@ -22,8 +22,8 @@
 
 		init: function () {
 			this.handleSettings();
-			this.$dateField.pickadate(this.settings.dateField);
-			this.$timeField.pickatime(this.settings.timeField);
+			this.$dateField.pickadate(this.settings.dateArgs);
+			this.$timeField.pickatime(this.settings.timeArgs);
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
 		},
