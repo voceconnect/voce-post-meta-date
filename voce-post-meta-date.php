@@ -145,6 +145,8 @@ class Voce_Post_Meta_Date {
 
 	private static function get_field_settings( $args ) {
 		$field_settings = array(
+			'minField' => false,
+			'maxField' => false,
 			'dateArgs' => array(),
 			'timeArgs' => array(),
 		);
