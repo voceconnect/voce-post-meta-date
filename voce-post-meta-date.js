@@ -1,8 +1,8 @@
 ;(function ( $, window, document, undefined ) {
 
 	var defaults = {
-		time: {},
-		date: {
+		timeField: {},
+		dateField: {
 			min: undefined,
 			max: undefined
 		}
@@ -20,21 +20,21 @@
 
 		init: function () {
 			this.handleSettings();
-			this.$dateField.pickadate(this.settings.date);
-			this.$timeField.pickatime(this.settings.time);
+			this.$dateField.pickadate(this.settings.dateField);
+			this.$timeField.pickatime(this.settings.timeField);
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
 			this.listen();
 		},
 
 		handleSettings: function() {
-			if ( this.settings.date.min ) {
-				var timestamp = this.settings.date.min;
-				this.settings.date.min = new Date(timestamp);
+			if ( this.settings.dateField.min ) {
+				var timestamp = this.settings.dateField.min;
+				this.settings.dateField.min = new Date(timestamp);
 			}
-			if ( this.settings.date.max ) {
-				var timestamp = this.settings.date.max;
-				this.settings.date.max = new Date(timestamp);
+			if ( this.settings.dateField.max ) {
+				var timestamp = this.settings.dateField.max;
+				this.settings.dateField.max = new Date(timestamp);
 			}
 		},
 
