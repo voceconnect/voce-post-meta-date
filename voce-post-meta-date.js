@@ -55,12 +55,12 @@
 
 		initConnected: function() {
 			if ( this.settings.minField ) {
-				minID = this.settings.minField;
+				var minID = this.settings.minField;
 				this.connectedMin = this.getConnectedField(minID);
 			}
 
 			if ( this.settings.maxField ) {
-				maxID = this.settings.maxField;
+				var maxID = this.settings.maxField;
 				this.connectedMax = this.getConnectedField(maxID);
 			}
 		},
@@ -69,7 +69,7 @@
 			var _this = this;
 
 			if ( this.settings.minField ) {
-				$minPicker = this.getConnectedPicker(this.settings.minField);
+				var $minPicker = this.getConnectedPicker(this.settings.minField);
 				if ( $minPicker ) {
 					if ( this.connectedMin.val() ) {
 						var minDateVal = $minPicker.get('select');
@@ -84,7 +84,7 @@
 			}
 
 			if ( this.settings.maxField ) {
-				$maxPicker = this.getConnectedPicker(this.settings.maxField);
+				var $maxPicker = this.getConnectedPicker(this.settings.maxField);
 				if ( $maxPicker ) {
 					if ( this.connectedMax.val() ) {
 						var maxDateVal = $maxPicker.get('select');
@@ -100,7 +100,7 @@
 		},
 
 		getConnectedField: function( id ) {
-			$field = $('#'+id);
+			var $field = $('#'+id);
 			if ( $field.length ) {
 				return $field;
 			}
@@ -108,11 +108,11 @@
 		},
 
 		getConnectedPicker: function( id ) {
-			$field = $('#'+id);
+			var $field = $('#'+id);
 			if ( $field.length ) {
-				$date = $field.parent().find('.datepicker');
+				var $date = $field.parent().find('.datepicker');
 				if ( $date.length ) {
-					$picker = $date.pickadate('picker');
+					var $picker = $date.pickadate('picker');
 					return $picker;
 				}
 			}
