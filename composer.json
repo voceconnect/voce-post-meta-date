@@ -23,7 +23,7 @@
     ],
     "type": "library",
     "require": {
-        "voceconnect/voce-post-meta": "~1.4"
+        "voceconnect/voce-post-meta": "~1.7.0"
     },
     "autoload": {
         "files": ["voce-post-meta-date.php"]

@@ -3,7 +3,7 @@
   Plugin Name: Voce Meta Date
   Plugin URI: http://vocecommunications.com
   Description: Extends Voce Post Meta with a date picker field
-  Version: 2.1.0
+  Version: 3.0.0
   Author: markparolisi, banderon, voceplatforms
   Author URI: http://vocecommunications.com
   License: GPLv2
@@ -18,7 +18,6 @@ class Voce_Post_Meta_Date {
 	 */
 	public static function initialize() {
 		add_filter( 'meta_type_mapping', array(__CLASS__, 'meta_type_mapping') );
-		add_action( 'admin_head', array(__CLASS__, 'css_fix') );
 		add_action( 'admin_enqueue_scripts', array(__CLASS__, 'action_admin_enqueue_scripts') );
 		add_action( 'admin_print_footer_scripts', array(__CLASS__, 'print_timezone') );
 		add_action( 'admin_init', array( __CLASS__, 'admin_init' ) );
@@ -64,15 +63,6 @@ class Voce_Post_Meta_Date {
 		}
 	}
 
-	public static function css_fix() {
-		echo "
-		<style>
-			#ui-datepicker-div{
-				display:none;
-			}
-		</style>";
-	}
-
 	/**
 	 * Enqueue admin JavaScripts
 	 * @return void
@@ -82,9 +72,19 @@ class Voce_Post_Meta_Date {
 		if( !in_array( $hook, $pages ) ) {
 			return;
 		}
-		wp_enqueue_style( 'jquery-datepicker-style', self::plugins_url( 'jquery-ui.css', __FILE__ ) );
-		wp_enqueue_script( 'jquery-timepicker', self::plugins_url( 'timepicker.js', __FILE__ ), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'jquery-ui-slider') );
-		wp_enqueue_script( 'voce-post-meta-date', self::plugins_url( 'voce-post-meta-date.js', __FILE__ ), array('jquery', 'jquery-ui-core') );
+		// Pickadate Styles
+		wp_enqueue_style( 'pickadate-picker', self::plugins_url( 'pickadate/themes/classic.css', __FILE__ ) );
+		wp_enqueue_style( 'pickadate-picker-date', self::plugins_url( 'pickadate/themes/classic.date.css', __FILE__ ) );
+		wp_enqueue_style( 'pickadate-picker-time', self::plugins_url( 'pickadate/themes/classic.time.css', __FILE__ ) );
+
+		// Pickadate Scripts
+		wp_enqueue_script( 'pickadate-picker', self::plugins_url( 'pickadate/picker.js', __FILE__ ), array('jquery') );
+		wp_enqueue_script( 'pickadate-picker-date', self::plugins_url( 'pickadate/picker.date.js', __FILE__ ), array('jquery', 'pickadate-picker') );
+		wp_enqueue_script( 'pickadate-picker-time', self::plugins_url( 'pickadate/picker.time.js', __FILE__ ), array('jquery', 'pickadate-picker') );
+		wp_enqueue_script( 'pickadate-legacy', self::plugins_url( 'pickadate/legacy.js', __FILE__ ), array('jquery', 'pickadate-picker') );
+
+		// Custom initialize script
+		wp_enqueue_script( 'voce-post-meta-date', self::plugins_url( 'voce-post-meta-date.js', __FILE__ ), array('jquery', 'pickadate-picker-date', 'pickadate-picker-time', 'pickadate-legacy') );
 	}
 
 	public static function print_timezone() {
@@ -136,52 +136,73 @@ class Voce_Post_Meta_Date {
 		$mapping['date'] = array(
 			'class' => 'Voce_Meta_Field',
 			'args' => array(
-				'display_callbacks' => array('voce_date_field_display'),
-				'sanitize_callbacks' => array('voce_date_field_sanitize')
+				'display_callbacks' => array( array( __CLASS__, 'display_field' ) ),
+				'sanitize_callbacks' => array( array( __CLASS__, 'sanitize_field' ) )
 			)
 		);
 		return $mapping;
 	}
+
+	private static function get_field_settings( $args ) {
+		$field_settings = array(
+			'minField' => false,
+			'maxField' => false,
+			'dateArgs' => array(),
+			'timeArgs' => array(),
+		);
+
+		if ( !empty($args['min_date']) )
+			$field_settings['dateArgs']['min'] = $args['min_date'] * 1000;
+
+		if ( !empty($args['max_date']) )
+			$field_settings['dateArgs']['max'] = $args['max_date'] * 1000;
+
+		if ( !empty($args['min_date_field']) )
+			$field_settings['minField'] = $args['min_date_field'];
+
+		if ( !empty($args['max_date_field']) )
+			$field_settings['maxField'] = $args['max_date_field'];
+
+		return $field_settings;
+	}
+
+	public static function display_field( $field, $value, $post_id ) {
+		$defaults = array(
+			'min_date' => false,
+			'max_date' => false,
+			'min_date_field' => false,
+			'max_date_field' => false
+		);
+		$args = wp_parse_args( $field->args, $defaults );
+		$field_settings = self::get_field_settings( $args );
+
+		if ( $value ) {
+			$date_val = date('j F, Y', $value);
+			$time_val = date('g:i A', $value);
+		} else {
+			$date_val = 'Select Date';
+			$time_val = 'Select Time';
+		}
+		?>
+		<div>
+			<strong><?php voce_field_label_display( $field ); ?></strong>
+			<p><label>Date: </label><input type="text" class="datepicker" value="<?php echo esc_attr($date_val); ?>" /></p>
+			<p><label>Time: </label><input type="text" class="timepicker" value="<?php echo esc_attr($time_val); ?>" /></p>
+			<input type="hidden" class="vpm-datetime" data-field-settings="<?php echo esc_attr(json_encode($field_settings)); ?>" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr($value); ?>" />
+		</div>
+		<?php
+	}
+
+	public static function sanitize_field( $field, $old, $new, $post_id ) {
+		if(is_numeric($new)) {
+			return intval($new);
+		} else {
+			return null;
+		}
+	}
+
 }
 
 Voce_Post_Meta_Date::initialize();
-
-/**
- * Public callback function to display HTML meta form field
- * @param object $field
- * @param string $value
- * @param int $post_id
- */
-function voce_date_field_display( $field, $value, $post_id ) {
-	$defaults = array(
-		'max_date'       => '',
-		'min_date'       => '',
-		'max_date_field' => '',
-		'min_date_field' => '',
-		'default_text'   => 'Select Date',
-		'default_date'   => '',
-		'year_range'     => '',
-	);
-	$args = wp_parse_args( $field->args, $defaults );
-
-	$input_pattern = '<input type="text" class="datepicker" id="%s-formatted" data-default_text="%s" data-default_date="%s" data-max_date="%s" data-min_date="%s" data-max_date_field="%s" data-min_date_field="%s" data-year_range="%s" readonly />';
-	?>
-	<p>
-		<?php voce_field_label_display( $field ); ?>
-		<?php printf( $input_pattern, $field->get_input_id(), esc_attr( $args['default_text'] ), esc_attr( $args['default_date'] ), esc_attr( $args['max_date'] ), esc_attr( $args['min_date'] ), esc_attr( $args['max_date_field'] ), esc_attr( $args['min_date_field'] ), esc_attr( $args['year_range'] ) ); ?>
-		<input class="hidden" type="hidden" id="<?php echo $field->get_input_id(); ?>" name="<?php echo $field->get_name(); ?>" value="<?php echo esc_attr( $value ); ?>"  />
-		<a href="#" class="submitdelete deletion voce-date-clear">Clear</a>
-		<?php echo !empty( $field->description ) ? ('<br><span class="description">' . wp_kses( $field->description, Voce_Meta_API::GetInstance()->description_allowed_html ) . '</span>') : ''; ?>
-	</p>
-	<?php
-}
-
-function voce_date_field_sanitize( $field, $old, $new, $post_id ) {
-	if(is_numeric($new)) {
-		return intval($new);
-	} else {
-		return null;
-	}
-}
 
 endif;
