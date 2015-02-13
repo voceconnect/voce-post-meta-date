@@ -66,6 +66,8 @@
 		},
 
 		initMinMax: function() {
+			var _this = this;
+
 			if ( this.settings.minField ) {
 				$minPicker = this.getConnectedPicker(this.settings.minField);
 				if ( $minPicker ) {
