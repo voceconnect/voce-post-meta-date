@@ -27,6 +27,7 @@
 			this.$datePicker = this.$dateField.pickadate('picker');
 			this.$timePicker = this.$timeField.pickatime('picker');
 			this.initListen();
+			this.initConnected();
 		},
 
 		initSettings: function() {
@@ -50,6 +51,18 @@
 
 			this.$datePicker.on(callbacks);
 			this.$timePicker.on(callbacks);
+		},
+
+		initConnected: function() {
+			if ( this.settings.minField ) {
+				minID = this.settings.minField;
+				this.connectedMin = this.getConnectedField(minID);
+			}
+
+			if ( this.settings.maxField ) {
+				maxID = this.settings.maxField;
+				this.connectedMax = this.getConnectedField(maxID);
+			}
 		},
 
 		initMinMax: function() {
@@ -78,6 +91,14 @@
 					} );
 				}
 			}
+		},
+
+		getConnectedField: function( id ) {
+			$field = $('#'+id);
+			if ( $field.length ) {
+				return $field;
+			}
+			return false;
 		},
 
 		getConnectedPicker: function( id ) {
