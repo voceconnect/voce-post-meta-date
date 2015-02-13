@@ -69,8 +69,10 @@
 			if ( this.settings.minField ) {
 				$minPicker = this.getConnectedPicker(this.settings.minField);
 				if ( $minPicker ) {
-					var minDateVal = $minPicker.get('select');
-					this.$datePicker.set('min', minDateVal.obj, {muted:true});
+					if ( this.connectedMin.val() ) {
+						var minDateVal = $minPicker.get('select');
+						this.$datePicker.set('min', minDateVal.obj, {muted:true});
+					}
 
 					$minPicker.on( 'set', function() {
 						var minDateVal = $minPicker.get('select');
@@ -82,8 +84,10 @@
 			if ( this.settings.maxField ) {
 				$maxPicker = this.getConnectedPicker(this.settings.maxField);
 				if ( $maxPicker ) {
-					var maxDateVal = $maxPicker.get('select');
-					this.$datePicker.set('max', maxDateVal.obj, {muted:true});
+					if ( this.connectedMax.val() ) {
+						var maxDateVal = $maxPicker.get('select');
+						this.$datePicker.set('max', maxDateVal.obj, {muted:true});
+					}
 
 					$maxPicker.on( 'set', function() {
 						var maxDateVal = $maxPicker.get('select');
